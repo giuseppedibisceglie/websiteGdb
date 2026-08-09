@@ -49,7 +49,7 @@
     .hero { max-width: 900px; padding: 10vh 0 8vh; }
     .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: .18em; font-size: .72rem; font-weight: 700; }
     h1, h2, h3 { font-family: 'Space Grotesk', 'DM Sans', Arial, sans-serif; font-weight: 500; line-height: .94; margin: 0; }
-    h1 { font-size: clamp(4rem, 12vw, 10.5rem); letter-spacing: -.075em; margin: 22px 0 30px; max-width: 850px; }
+    h1 { font-size: clamp(3rem, 8.4vw, 7.8rem); letter-spacing: -.085em; margin: 22px 0 30px; max-width: none; white-space: nowrap; }
     .hero-intro { display: flex; justify-content: space-between; align-items: end; gap: 36px; max-width: 800px; }
     .hero-intro p { max-width: 490px; font-size: clamp(1rem, 2vw, 1.35rem); margin: 0; }
     .scroll-note { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
@@ -100,6 +100,7 @@
       .hero { padding-top: 15vh; }
       h1 { font-size: clamp(4rem, 21vw, 7rem); }
       .hero-intro, .section-head, .bio-grid { display: block; }
+      h1 { font-size: clamp(2.7rem, 13.5vw, 5.5rem); letter-spacing: -.09em; }
       .scroll-note { margin-top: 35px; }
       .section-head > * { margin-bottom: 22px; }
       section { padding: 80px 0; }
@@ -200,7 +201,7 @@
       <!-- Per incorporare un video, sostituisci il video-frame con un iframe YouTube/Vimeo. -->
     </section>
 
-    <section id="experiences">
+    <section class="page-section" id="experiences">
       <div class="section-head">
         <div class="section-number">Live / Research</div>
         <h2>Experiences</h2>
