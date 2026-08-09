@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Giuseppe Di Bisceglie — compositore elettroacustico, musicista e sound artist." />
+  <title>Giuseppe Di Bisceglie — Composer & Musician</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    :root {
+      --ink: #f2eee8;
+      --muted: #aaa39a;
+      --paper: #151515;
+      --line: #343230;
+      --accent: #d87945;
+      --accent-dark: #f0a273;
+      --panel: #201f20;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      background-image: radial-gradient(circle at 82% 8%, rgba(216,121,69,.12), transparent 24%), radial-gradient(circle at 12% 70%, rgba(255,255,255,.035), transparent 22%);
+      font-family: 'DM Sans', Arial, Helvetica, sans-serif;
+      line-height: 1.65;
+    }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+    .shell { width: min(calc(100% - 48px), var(--max)); margin: auto; }
+    header {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 32px 0 54px;
+      border-bottom: 1px solid var(--line);
+    }
+    nav { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .mark { font-weight: 700; letter-spacing: .08em; font-size: .78rem; text-transform: uppercase; text-decoration: none; }
+    .nav-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .nav-links a { text-decoration: none; font-size: .78rem; text-transform: uppercase; letter-spacing: .12em; }
+    .nav-links a:hover { color: var(--accent); }
+
+    .hero { max-width: 900px; padding: 10vh 0 8vh; }
+    .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: .18em; font-size: .72rem; font-weight: 700; }
+    h1, h2, h3 { font-family: 'Space Grotesk', 'DM Sans', Arial, sans-serif; font-weight: 500; line-height: .94; margin: 0; }
+    h1 { font-size: clamp(4rem, 12vw, 10.5rem); letter-spacing: -.075em; margin: 22px 0 30px; max-width: 850px; }
+    .hero-intro { display: flex; justify-content: space-between; align-items: end; gap: 36px; max-width: 800px; }
+    .hero-intro p { max-width: 490px; font-size: clamp(1rem, 2vw, 1.35rem); margin: 0; }
+    .scroll-note { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+    .scroll-note::before { content: '↓'; display: block; color: var(--accent); font-size: 1.5rem; margin-bottom: 4px; }
+
+    section { padding: 120px 0; border-bottom: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; margin-bottom: 58px; }
+    .section-number { color: var(--accent); font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; }
+    h2 { font-size: clamp(3rem, 7vw, 7rem); letter-spacing: -.06em; }
+    .section-copy { max-width: 620px; font-size: 1.08rem; }
+    .section-copy p:first-child { margin-top: 0; }
+    em { color: var(--accent-dark); }
+
+    .bio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .portrait { min-height: 440px; background: radial-gradient(circle at 70% 20%, rgba(216,121,69,.42), transparent 24%), linear-gradient(145deg, #3b354d, #211f27 55%, #151515); position: relative; overflow: hidden; }
+    .portrait::after { content: 'GIUSEPPE\A DI BISCEGLIE'; white-space: pre; position: absolute; bottom: 22px; left: 24px; color: #f4f1eb; font: 400 clamp(2rem, 5vw, 4rem)/.9 Georgia, serif; letter-spacing: -.06em; }
+    .facts { border-top: 1px solid var(--ink); }
+    .fact { display: flex; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); padding: 14px 0; font-size: .9rem; }
+    .fact span:first-child { color: var(--muted); }
+
+    .work-list { border-top: 1px solid var(--ink); }
+    .work-item { display: grid; grid-template-columns: 1fr 110px 2fr; gap: 24px; padding: 25px 0; border-bottom: 1px solid var(--line); }
+    .work-title { font: 400 clamp(1.5rem, 3vw, 2.4rem)/1 Georgia, serif; }
+    .year { color: var(--accent); }
+    .work-description { color: var(--muted); max-width: 510px; }
+    .audio { margin-top: 14px; width: 100%; height: 30px; accent-color: var(--accent); }
+
+    .video-card { border-top: 1px solid var(--ink); padding-top: 24px; }
+    .video-frame { aspect-ratio: 16 / 9; background: radial-gradient(circle at 50% 45%, #16435a, #081321 65%); display: grid; place-items: center; color: var(--paper); text-align: center; padding: 24px; border: 1px solid var(--line); box-shadow: 0 0 50px rgba(56,232,196,.08); }
+    .play { width: 72px; height: 72px; border: 1px solid var(--paper); border-radius: 50%; display: grid; place-items: center; font-size: 1.5rem; margin: auto; }
+    .video-caption { display: flex; justify-content: space-between; gap: 24px; padding-top: 18px; }
+
+    .experience { display: grid; grid-template-columns: 180px 1fr; gap: 32px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .experience-date { color: var(--accent); font-size: .86rem; }
+    .experience h3 { font-size: 1.7rem; margin-bottom: 6px; }
+    .experience p { margin: 0; color: var(--muted); }
+
+    footer { padding: 34px 0 50px; display: flex; justify-content: space-between; gap: 20px; font-size: .8rem; color: var(--muted); }
+    .socials { display: flex; gap: 18px; }
+    .socials a { color: var(--ink); text-decoration: none; }
+    .socials a:hover { color: var(--accent); }
+
+    @media (max-width: 700px) {
+      .shell { width: min(calc(100% - 32px), var(--max)); }
+      header { padding-top: 22px; }
+      nav { align-items: flex-start; flex-direction: column; }
+      .nav-links { gap: 10px 16px; }
+      .hero { padding-top: 15vh; }
+      h1 { font-size: clamp(4rem, 21vw, 7rem); }
+      .hero-intro, .section-head, .bio-grid { display: block; }
+      .scroll-note { margin-top: 35px; }
+      .section-head > * { margin-bottom: 22px; }
+      section { padding: 80px 0; }
+      .portrait { min-height: 330px; margin-bottom: 40px; }
+      .work-item { grid-template-columns: 1fr 70px; gap: 12px; }
+      .work-description { grid-column: 1 / -1; }
+      .video-caption, footer { display: block; }
+      .video-caption > * { margin-bottom: 8px; }
+      footer .socials { margin-top: 18px; }
+      .experience { grid-template-columns: 1fr; gap: 4px; }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .hero { animation: reveal .9s ease both; }
+      @keyframes reveal { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    }
+  </style>
+</head>
+<body>
+  <header id="home" class="shell">
+    <nav aria-label="Navigazione principale">
+      <a class="mark" href="#home">GDB / Music</a>
+      <div class="nav-links">
+        <a href="#bio">Bio</a>
+        <a href="#music">Music</a>
+        <a href="#video">Video</a>
+        <a href="#experiences">Experiences</a>
+      </div>
+    </nav>
+
+    <div class="hero">
+      <div class="eyebrow">Electroacoustic composer · Musician</div>
+      <h1>Giuseppe<br />Di Bisceglie</h1>
+      <div class="hero-intro">
+        <p>Suono, materia e tecnologia si incontrano in composizioni elettroacustiche, performance live e ascolti immersivi.</p>
+        <div class="scroll-note">Explore the work</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section id="bio">
+      <div class="section-head">
+        <div class="section-number">About</div>
+        <h2>Bio</h2>
+      </div>
+      <div class="bio-grid">
+        <div class="portrait" role="img" aria-label="Immagine ritratto da sostituire con una fotografia"></div>
+        <div class="section-copy">
+          <p><strong>Giuseppe Di Bisceglie</strong> è uno studente di Musica Elettronica presso il Conservatorio Martini di Bologna.</p>
+          <p>Formatosi inizialmente come chitarrista, tra fingerstyle, fingerpicking e armonia, ha ampliato il proprio linguaggio verso la composizione elettronica ed elettroacustica.</p>
+          <p>Attivo in studio e dal vivo, lavora con strumenti digitali e analogici, elettronica live e improvvisazione elettroacustica, sia in solo sia in collaborazione con altri musicisti.</p>
+          <p>Utilizza quotidianamente <em>Ableton Live</em>, <em>Max/MSP</em> e <em>Reaper</em>, con una particolare attenzione all’<strong>Ambisonics</strong> e alla composizione multicanale.</p>
+          <div class="facts">
+            <div class="fact"><span>Base</span><strong>Bologna, Italia</strong></div>
+            <div class="fact"><span>Practice</span><strong>Sound art / Live electronics</strong></div>
+            <div class="fact"><span>CV</span><a href="#" onclick="alert('Inserisci qui il link al tuo CV'); return false;">Download CV ↗</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="music">
+      <div class="section-head">
+        <div class="section-number">Selected work</div>
+        <h2>Music</h2>
+      </div>
+      <div class="work-list">
+        <article class="work-item">
+          <div class="work-title">Drosophila</div><div class="year">2025</div>
+          <div class="work-description">Composizione elettroacustica. Un organismo sonoro costruito tra dettaglio microscopico, gesto e trasformazione.</div>
+        </article>
+        <article class="work-item">
+          <div class="work-title">Madeleine</div><div class="year">2024</div>
+          <div class="work-description">Materiali acustici eterogenei — palloncini, glockenspiel e giocattoli — dialogano con frammenti pop-rock, attivando una memoria a mosaico.</div>
+        </article>
+        <article class="work-item">
+          <div class="work-title">ImLovingIT</div><div class="year">2023</div>
+          <div class="work-description">Debris, rifiuti e materiali consumati diventano materia prima per un’indagine sul suono delle cose abbandonate.</div>
+        </article>
+      </div>
+      <p class="section-copy" style="margin-top:28px; color:var(--muted);">Per aggiungere un brano, inserisci qui un file audio ospitato online:</p>
+      <!-- Esempio: <audio class="audio" controls src="URL-DEL-TUO-FILE.mp3"></audio> -->
+    </section>
+
+    <section id="video">
+      <div class="section-head">
+        <div class="section-number">Moving image</div>
+        <h2>Video</h2>
+      </div>
+      <div class="video-card">
+        <div class="video-frame">
+          <div><div class="play">▶</div><p>Inserisci qui il tuo video YouTube o Vimeo</p></div>
+        </div>
+        <div class="video-caption"><strong>BiangBiang24</strong><span>Audio-visual composition · 2024</span></div>
+        <p class="section-copy">Un collage audiovisivo nato da registrazioni amatoriali realizzate durante un viaggio in Cina: cibo, rituali quotidiani e velocità urbana si incontrano in un paesaggio di memoria.</p>
+      </div>
+      <!-- Per incorporare un video, sostituisci il video-frame con un iframe YouTube/Vimeo. -->
+    </section>
+
+    <section id="experiences">
+      <div class="section-head">
+        <div class="section-number">Live / Research</div>
+        <h2>Experiences</h2>
+      </div>
+      <div>
+        <article class="experience"><div class="experience-date">10 / 2025<br />Ioannina, Greece</div><div><h3>Electroacoustic Music Days 2025 — HELMCA</h3><p>Presentazione della composizione <em>Madeleine</em> al festival organizzato dalla Hellenic Electroacoustic Music Composers Association.</p></div></article>
+        <article class="experience"><div class="experience-date">10 / 2025<br />Yerevan, Armenia</div><div><h3>Antanèlee — HIGH FEST</h3><p>Sound artist e performer di musica live nella performance curata da Tsolak Mlke-Galstyan e MIHR Theatre.</p></div></article>
+        <article class="experience"><div class="experience-date">04 / 2025<br />Bologna, Italy</div><div><h3>Motus — Acusmonium Workshop</h3><p>Workshop di tre giorni sulla performance con acusmonium e oltre 30 altoparlanti, concluso con un concerto finale.</p></div></article>
+        <article class="experience"><div class="experience-date">2025<br />Yerevan, Armenia</div><div><h3>Études Lab #1 — Hosq</h3><p>Collaborazione alla creazione di una performance teatrale, con composizione e sound design per installazioni ed elettronica live.</p></div></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell">
+    <div>© 2025 Giuseppe Di Bisceglie</div>
+    <div class="socials"><a href="https://www.instagram.com/josef.lynn/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="mailto:giuseppe.dibisceglie@xtech.ai">Email ↗</a><a href="tel:+393917368844">Mobile ↗</a></div>
+  </footer>
+</body>
+</html>
