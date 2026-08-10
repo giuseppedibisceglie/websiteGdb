@@ -264,6 +264,19 @@
       .topbar { padding: 20px 24px; }
       .home-bottom { padding: 0 24px 40px; }
       .home-name { font-size: clamp(2.2rem, 11vw, 4rem); }
+      .home-nav {
+        width: min(100%, 360px);
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px 6px;
+        justify-items: center;
+      }
+      .home-nav button { white-space: nowrap; letter-spacing: .12em; }
+      .home-nav button:nth-child(1) { grid-column: 1 / span 2; }
+      .home-nav button:nth-child(2) { grid-column: 3 / span 2; }
+      .home-nav button:nth-child(3) { grid-column: 5 / span 2; }
+      .home-nav button:nth-child(4) { grid-column: 2 / span 2; }
+      .home-nav button:nth-child(5) { grid-column: 4 / span 2; }
       .inner-page { padding: 90px 24px 60px; }
       .bio-grid { grid-template-columns: 1fr; gap: 32px; }
       .track { display: block; }
