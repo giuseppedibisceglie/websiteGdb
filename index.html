@@ -169,10 +169,10 @@
     .audio-frame {
       width: 100%;
       height: 190px;
-      border: 1px solid rgba(216,121,69,.32);
+      border: 0;
       background: var(--panel);
       margin-top: 12px;
-      box-shadow: 0 0 0 1px rgba(255,255,255,.02);
+      box-shadow: none;
     }
     .track-link {
       display: inline-flex; align-items: center; gap: 8px;
@@ -186,11 +186,11 @@
 
     /* ── VIDEO ── */
     .video-grid {
-      width: min(100%, 900px);
+      width: min(100%, 1040px);
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 36px 28px;
+      gap: 42px 32px;
     }
     .video-card { display: flex; flex-direction: column; gap: 0; }
     .video-frame-wrap {
