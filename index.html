@@ -48,9 +48,10 @@
       justify-content: space-between;
       align-items: center;
       padding: 28px 48px;
-      position: absolute;
+      position: fixed;
       top: 0; left: 0;
-      z-index: 10;
+      z-index: 100;
+      background: linear-gradient(to bottom, rgba(21,21,21,.96), rgba(21,21,21,0));
     }
     .home-btn {
       font-family: 'Space Grotesk', sans-serif;
@@ -147,9 +148,27 @@
     .track-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 600; letter-spacing: -.04em; line-height: 1; margin-bottom: 6px; }
     .track-year { color: var(--accent); font-size: .82rem; letter-spacing: .12em; margin-bottom: 10px; }
     .track-desc { color: var(--muted); font-size: .95rem; max-width: 560px; margin-bottom: 14px; }
+    .track-accordion { margin: 10px 0 14px; }
+    .track-accordion summary {
+      list-style: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color .2s;
+    }
+    .track-accordion summary::-webkit-details-marker { display: none; }
+    .track-accordion summary::before { content: '+'; color: var(--accent); font-size: 1rem; line-height: 1; }
+    .track-accordion[open] summary::before { content: '−'; }
+    .track-accordion summary:hover { color: var(--accent); }
+    .track-accordion-body { color: var(--muted); font-size: .95rem; max-width: 700px; line-height: 1.6; padding: 10px 0 2px; }
     .audio-frame {
       width: 100%;
-      height: 104px;
+      height: 150px;
       border: 1px solid rgba(216,121,69,.32);
       background: var(--panel);
       margin-top: 18px;
@@ -168,11 +187,11 @@
 
     /* ── VIDEO ── */
     .video-grid {
-      width: min(100%, 860px);
+      width: min(100%, 900px);
       margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 48px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 36px 28px;
     }
     .video-card { display: flex; flex-direction: column; gap: 0; }
     .video-frame-wrap {
@@ -327,7 +346,10 @@
           <div class="track-info">
             <div class="track-title">Drosophila</div>
             <div class="track-year">2025</div>
-            <div class="track-desc">Wingbeats at 240 Hz and other annoyinssssssssssssssssssg buzzes.</div>
+            <details class="track-accordion">
+              <summary>Synopsis</summary>
+              <div class="track-accordion-body">Wingbeats at 240 Hz and other annoyinssssssssssssssssssg buzzes.</div>
+            </details>
             <iframe class="audio-frame" src="https://drive.google.com/file/d/1VCbeDUuptTay6QUQzoZCt0JF-uviyv0R/preview" title="Drosophila audio player" allow="autoplay"></iframe>
           </div>
           <div class="track-num">01</div>
@@ -337,7 +359,10 @@
           <div class="track-info">
             <div class="track-title">Madeleine</div>
             <div class="track-year">2024</div>
-            <div class="track-desc">Madeleine intertwines heterogeneous acoustic materials, such as balloons, glockenspiel, and various toys, with evocative fragments of pop-rock tracks. The moments of clear recognizability of the sources, contrasted with electroacoustic reworkings of various kinds, aim to activate memory processes, allowing imagination to assemble a frosted mosaic of memories.</div>
+            <details class="track-accordion">
+              <summary>Synopsis</summary>
+              <div class="track-accordion-body">Madeleine intertwines heterogeneous acoustic materials, such as balloons, glockenspiel, and various toys, with evocative fragments of pop-rock tracks. The moments of clear recognizability of the sources, contrasted with electroacoustic reworkings of various kinds, aim to activate memory processes, allowing imagination to assemble a frosted mosaic of memories.</div>
+            </details>
             <iframe class="audio-frame" src="https://drive.google.com/file/d/1XQcJ_wLapBJNywTtIxmLxweioG-P7e7a/preview" title="Madeleine audio player" allow="autoplay"></iframe>
           </div>
           <div class="track-num">02</div>
@@ -347,7 +372,10 @@
           <div class="track-info">
             <div class="track-title">ImLovingIT</div>
             <div class="track-year">2023</div>
-            <div class="track-desc">Debris, waste, and other bulky consumed materials.</div>
+            <details class="track-accordion">
+              <summary>Synopsis</summary>
+              <div class="track-accordion-body">Debris, waste, and other bulky consumed materials.</div>
+            </details>
             <iframe class="audio-frame" src="https://drive.google.com/file/d/1q91J0NyhFbRrD4DMg2zGq1Bk-6CwFhgi/preview" title="ImLovingIT audio player" allow="autoplay"></iframe>
           </div>
           <div class="track-num">03</div>
