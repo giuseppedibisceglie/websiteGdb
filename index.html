@@ -3,221 +3,657 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Giuseppe Di Bisceglie — compositore elettroacustico, musicista e sound artist." />
-  <title>Giuseppe Di Bisceglie — Composer & Musician</title>
+  <meta name="description" content="Giuseppe Di Bisceglie — Electroacoustic Composer & Musician" />
+  <title>Giuseppe Di Bisceglie</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
     :root {
       --ink: #f2eee8;
       --muted: #aaa39a;
       --paper: #151515;
-      --line: #343230;
+      --line: #2e2c2a;
       --accent: #d87945;
-      --accent-dark: #f0a273;
-      --panel: #201f20;
-      --max: 1120px;
+      --accent-light: #f0a273;
+      --panel: #1c1a18;
+      --max: 1100px;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+
     body {
-      margin: 0;
-      color: var(--ink);
+      font-family: 'DM Sans', Arial, sans-serif;
       background: var(--paper);
-      background-image: radial-gradient(circle at 82% 8%, rgba(216,121,69,.12), transparent 24%), radial-gradient(circle at 12% 70%, rgba(255,255,255,.035), transparent 22%);
-      font-family: 'DM Sans', Arial, Helvetica, sans-serif;
+      color: var(--ink);
       line-height: 1.65;
     }
-    a { color: inherit; }
-    a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
 
-    .shell { width: min(calc(100% - 48px), var(--max)); margin: auto; }
-    header {
-      min-height: 100vh;
+    /* ── PAGES ── */
+    .page {
+      position: fixed;
+      inset: 0;
+      overflow-y: auto;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .45s ease;
       display: flex;
       flex-direction: column;
+    }
+    .page.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      width: 100%;
+      display: flex;
       justify-content: space-between;
-      padding: 32px 0 54px;
+      align-items: center;
+      padding: 28px 48px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+    .home-btn {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: none;
+      border: 1px solid var(--line);
+      padding: 8px 18px;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+    .home-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .topbar-label {
+      font-size: .72rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── HOME PAGE ── */
+    #page-home {
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .home-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 70% 30%, rgba(216,121,69,.18), transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(216,121,69,.08), transparent 35%),
+        #151515;
+      z-index: 0;
+    }
+    /* Placeholder foto – sostituire con <img> reale */
+    .home-photo-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+    .home-photo-placeholder .photo-hint {
+      width: 340px;
+      height: 480px;
+      border: 1px dashed var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: .8rem;
+      text-align: center;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .home-bottom {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 0 48px 52px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .home-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.8rem, 7.5vw, 7.2rem);
+      font-weight: 700;
+      letter-spacing: -.07em;
+      white-space: nowrap;
+      line-height: 1;
+      text-align: center;
+      width: 100%;
+    }
+    .home-sub {
+      font-size: .78rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 12px;
+      margin-bottom: 36px;
+      text-align: center;
+    }
+    .home-nav {
+      width: min(100%, 850px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+    .home-nav button {
+      position: relative;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      background: none;
+      border: 0;
+      color: var(--muted);
+      padding: 10px 2px;
+      cursor: pointer;
+      transition: color .2s ease;
+    }
+    .home-nav button::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 2px;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform .2s ease;
+    }
+    .home-nav button:hover,
+    .home-nav button:focus-visible {
+      color: var(--accent);
+    }
+    .home-nav button:hover::after,
+    .home-nav button:focus-visible::after {
+      transform: scaleX(1);
+    }
+
+    /* ── INNER PAGES ── */
+    .inner-page {
+      padding: 110px 48px 80px;
+      max-width: var(--max);
+      width: 100%;
+      margin: 0 auto;
+      flex: 1;
+    }
+    .page-eyebrow {
+      font-size: .72rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .page-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(3.2rem, 8vw, 7rem);
+      font-weight: 700;
+      letter-spacing: -.07em;
+      line-height: .94;
+      margin-bottom: 56px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 32px;
+    }
+
+    /* ── BIO ── */
+    .bio-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .bio-photo {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+    }
+    .bio-photo-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      border: 1px dashed var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: .78rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .bio-text p { margin-bottom: 18px; font-size: 1.05rem; color: var(--ink); }
+    .bio-text em { color: var(--accent-light); font-style: normal; }
+    .bio-text strong { color: var(--ink); }
+    .bio-facts { margin-top: 32px; border-top: 1px solid var(--line); }
+    .fact { display: flex; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); padding: 13px 0; font-size: .9rem; }
+    .fact span:first-child { color: var(--muted); }
+    .fact a { color: var(--accent); text-decoration: none; }
+    .fact a:hover { text-decoration: underline; }
+
+    /* ── MUSIC ── */
+    .track-list { display: flex; flex-direction: column; gap: 0; }
+    .track {
+      display: grid;
+      grid-template-columns: 1fr 80px;
+      gap: 16px;
+      padding: 28px 0;
       border-bottom: 1px solid var(--line);
     }
-    nav { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
-    .mark { font-weight: 700; letter-spacing: .08em; font-size: .78rem; text-transform: uppercase; text-decoration: none; }
-    .nav-links { display: flex; gap: 24px; flex-wrap: wrap; }
-    .nav-links a { text-decoration: none; font-size: .78rem; text-transform: uppercase; letter-spacing: .12em; }
-    .nav-links a:hover { color: var(--accent); }
+    .track-info {}
+    .track-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 600;
+      letter-spacing: -.04em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .track-year { color: var(--accent); font-size: .82rem; letter-spacing: .12em; margin-bottom: 10px; }
+    .track-desc { color: var(--muted); font-size: .95rem; max-width: 560px; margin-bottom: 14px; }
+    .track-player {
+      width: 100%;
+      height: 36px;
+      accent-color: var(--accent);
+      margin-top: 4px;
+    }
+    .track-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--line);
+      text-align: right;
+      line-height: 1;
+      padding-top: 4px;
+    }
+    .audio-note {
+      font-size: .78rem;
+      color: var(--muted);
+      letter-spacing: .1em;
+      margin-top: 8px;
+      font-style: italic;
+    }
 
-    .hero { max-width: 900px; padding: 10vh 0 8vh; }
-    .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: .18em; font-size: .72rem; font-weight: 700; }
-    h1, h2, h3 { font-family: 'Space Grotesk', 'DM Sans', Arial, sans-serif; font-weight: 500; line-height: .94; margin: 0; }
-    h1 { font-size: clamp(3rem, 8.4vw, 7.8rem); letter-spacing: -.085em; margin: 22px 0 30px; max-width: none; white-space: nowrap; }
-    .hero-intro { display: flex; justify-content: space-between; align-items: end; gap: 36px; max-width: 800px; }
-    .hero-intro p { max-width: 490px; font-size: clamp(1rem, 2vw, 1.35rem); margin: 0; }
-    .scroll-note { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
-    .scroll-note::before { content: '↓'; display: block; color: var(--accent); font-size: 1.5rem; margin-bottom: 4px; }
+    /* ── VIDEO ── */
+    .video-list { display: flex; flex-direction: column; gap: 56px; }
+    .video-item {}
+    .video-frame-wrap {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: var(--panel);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .video-frame-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .video-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      color: var(--muted);
+      font-size: .8rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      border: 1px dashed var(--line);
+    }
+    .play-icon {
+      width: 60px;
+      height: 60px;
+      border: 1px solid var(--muted);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+    .video-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; }
+    .video-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: -.04em;
+    }
+    .video-year { color: var(--accent); font-size: .82rem; letter-spacing: .12em; }
+    .video-desc { color: var(--muted); font-size: .95rem; margin-top: 8px; max-width: 640px; }
 
-    section { padding: 120px 0; border-bottom: 1px solid var(--line); }
-    .section-head { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; margin-bottom: 58px; }
-    .section-number { color: var(--accent); font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; }
-    h2 { font-size: clamp(3rem, 7vw, 7rem); letter-spacing: -.06em; }
-    .section-copy { max-width: 620px; font-size: 1.08rem; }
-    .section-copy p:first-child { margin-top: 0; }
-    em { color: var(--accent-dark); }
+    /* ── EXPERIENCES ── */
+    .exp-list { display: flex; flex-direction: column; gap: 0; }
+    .exp-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 32px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .exp-date { color: var(--accent); font-size: .85rem; letter-spacing: .1em; line-height: 1.5; }
+    .exp-place { color: var(--muted); font-size: .82rem; margin-top: 4px; }
+    .exp-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: -.03em;
+      margin-bottom: 6px;
+    }
+    .exp-desc { color: var(--muted); font-size: .95rem; }
 
-    .bio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
-    .portrait { min-height: 440px; background: radial-gradient(circle at 70% 20%, rgba(216,121,69,.42), transparent 24%), linear-gradient(145deg, #3b354d, #211f27 55%, #151515); position: relative; overflow: hidden; }
-    .portrait::after { content: 'GIUSEPPE\A DI BISCEGLIE'; white-space: pre; position: absolute; bottom: 22px; left: 24px; color: #f4f1eb; font: 400 clamp(2rem, 5vw, 4rem)/.9 Georgia, serif; letter-spacing: -.06em; }
-    .facts { border-top: 1px solid var(--ink); }
-    .fact { display: flex; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); padding: 14px 0; font-size: .9rem; }
-    .fact span:first-child { color: var(--muted); }
+    /* ── CONTACTS ── */
+    .contacts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px 80px;
+      margin-bottom: 60px;
+    }
+    .contact-block h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: -.02em;
+      color: var(--accent);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      font-size: .72rem;
+      letter-spacing: .18em;
+    }
+    .contact-block a {
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 1.15rem;
+      display: block;
+    }
+    .contact-block a:hover { color: var(--accent); }
+    .contact-divider { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
+    .contact-social { display: flex; gap: 16px; flex-wrap: wrap; }
+    .social-btn {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: 10px 22px;
+      text-decoration: none;
+      transition: border-color .2s, color .2s;
+    }
+    .social-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-    .work-list { border-top: 1px solid var(--ink); }
-    .work-item { display: grid; grid-template-columns: 1fr 110px 2fr; gap: 24px; padding: 25px 0; border-bottom: 1px solid var(--line); }
-    .work-title { font: 400 clamp(1.5rem, 3vw, 2.4rem)/1 Georgia, serif; }
-    .year { color: var(--accent); }
-    .work-description { color: var(--muted); max-width: 510px; }
-    .audio { margin-top: 14px; width: 100%; height: 30px; accent-color: var(--accent); }
+    /* ── FOOTER ── */
+    .page-footer {
+      padding: 28px 48px;
+      text-align: center;
+      font-size: .75rem;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      letter-spacing: .1em;
+    }
 
-    .video-card { border-top: 1px solid var(--ink); padding-top: 24px; }
-    .video-frame { aspect-ratio: 16 / 9; background: radial-gradient(circle at 50% 45%, #16435a, #081321 65%); display: grid; place-items: center; color: var(--paper); text-align: center; padding: 24px; border: 1px solid var(--line); box-shadow: 0 0 50px rgba(56,232,196,.08); }
-    .play { width: 72px; height: 72px; border: 1px solid var(--paper); border-radius: 50%; display: grid; place-items: center; font-size: 1.5rem; margin: auto; }
-    .video-caption { display: flex; justify-content: space-between; gap: 24px; padding-top: 18px; }
-
-    .experience { display: grid; grid-template-columns: 180px 1fr; gap: 32px; padding: 22px 0; border-bottom: 1px solid var(--line); }
-    .experience-date { color: var(--accent); font-size: .86rem; }
-    .experience h3 { font-size: 1.7rem; margin-bottom: 6px; }
-    .experience p { margin: 0; color: var(--muted); }
-
-    footer { padding: 34px 0 50px; display: flex; justify-content: space-between; gap: 20px; font-size: .8rem; color: var(--muted); }
-    .socials { display: flex; gap: 18px; }
-    .socials a { color: var(--ink); text-decoration: none; }
-    .socials a:hover { color: var(--accent); }
-
+    /* ── MOBILE ── */
     @media (max-width: 700px) {
-      .shell { width: min(calc(100% - 32px), var(--max)); }
-      header { padding-top: 22px; }
-      nav { align-items: flex-start; flex-direction: column; }
-      .nav-links { gap: 10px 16px; }
-      .hero { padding-top: 15vh; }
-      h1 { font-size: clamp(4rem, 21vw, 7rem); }
-      .hero-intro, .section-head, .bio-grid { display: block; }
-      h1 { font-size: clamp(2.7rem, 13.5vw, 5.5rem); letter-spacing: -.09em; }
-      .scroll-note { margin-top: 35px; }
-      .section-head > * { margin-bottom: 22px; }
-      section { padding: 80px 0; }
-      .portrait { min-height: 330px; margin-bottom: 40px; }
-      .work-item { grid-template-columns: 1fr 70px; gap: 12px; }
-      .work-description { grid-column: 1 / -1; }
-      .video-caption, footer { display: block; }
-      .video-caption > * { margin-bottom: 8px; }
-      footer .socials { margin-top: 18px; }
-      .experience { grid-template-columns: 1fr; gap: 4px; }
+      .topbar { padding: 20px 24px; }
+      .home-bottom { padding: 0 24px 40px; }
+      .home-name { font-size: clamp(2.2rem, 11vw, 4rem); }
+      .inner-page { padding: 90px 24px 60px; }
+      .bio-grid { grid-template-columns: 1fr; gap: 32px; }
+      .track { grid-template-columns: 1fr; }
+      .track-num { display: none; }
+      .exp-item { grid-template-columns: 1fr; gap: 6px; }
+      .contacts-grid { grid-template-columns: 1fr; gap: 32px; }
+      .video-meta { flex-direction: column; gap: 4px; }
     }
 
     @media (prefers-reduced-motion: no-preference) {
-      .hero { animation: reveal .9s ease both; }
-      @keyframes reveal { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+      .page.active .home-name,
+      .page.active .page-title { animation: fadeup .5s ease both; }
+      @keyframes fadeup { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
     }
   </style>
 </head>
 <body>
-  <header id="home" class="shell">
-    <nav aria-label="Navigazione principale">
-      <a class="mark" href="#home">GDB / Music</a>
-      <div class="nav-links">
-        <a href="#bio">Bio</a>
-        <a href="#music">Music</a>
-        <a href="#video">Video</a>
-        <a href="#experiences">Experiences</a>
-      </div>
-    </nav>
 
-    <div class="hero">
-      <div class="eyebrow">Electroacoustic composer · Musician</div>
-      <h1>Giuseppe<br />Di Bisceglie</h1>
-      <div class="hero-intro">
-        <p>Suono, materia e tecnologia si incontrano in composizioni elettroacustiche, performance live e ascolti immersivi.</p>
-        <div class="scroll-note">Explore the work</div>
-      </div>
+  <!-- ══════════════ HOME ══════════════ -->
+  <div class="page active" id="page-home">
+    <div class="home-bg"></div>
+
+    <!-- Foto: sostituisci il div .home-photo-placeholder con:
+         <img src="images/portrait.jpg" alt="Giuseppe Di Bisceglie" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35;z-index:1;"> -->
+    <div class="home-photo-placeholder">
+      <div class="photo-hint">Inserisci qui<br/>la tua foto</div>
     </div>
-  </header>
 
-  <main class="shell">
-    <section id="bio">
-      <div class="section-head">
-        <div class="section-number">About</div>
-        <h2>Bio</h2>
-      </div>
+    <div class="home-bottom">
+      <div class="home-name">Giuseppe Di Bisceglie</div>
+      <div class="home-sub">Electroacoustic Composer · Musician</div>
+      <nav class="home-nav" aria-label="Navigazione principale">
+        <button onclick="goTo('bio')">Bio</button>
+        <button onclick="goTo('music')">Music</button>
+        <button onclick="goTo('video')">Video</button>
+        <button onclick="goTo('experiences')">Experiences</button>
+        <button onclick="goTo('contacts')">Contacts</button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ══════════════ BIO ══════════════ -->
+  <div class="page" id="page-bio">
+    <div class="topbar">
+      <button class="home-btn" onclick="goTo('home')">← Home</button>
+      <span class="topbar-label">Giuseppe Di Bisceglie</span>
+    </div>
+    <div class="inner-page">
+      <div class="page-eyebrow">About</div>
+      <h1 class="page-title">Bio</h1>
       <div class="bio-grid">
-        <div class="portrait" role="img" aria-label="Immagine ritratto da sostituire con una fotografia"></div>
-        <div class="section-copy">
-          <p><strong>Giuseppe Di Bisceglie</strong> è uno studente di Musica Elettronica presso il Conservatorio Martini di Bologna.</p>
+        <!-- Foto: sostituisci il div con: <img class="bio-photo" src="images/ritratto.jpg" alt="Giuseppe Di Bisceglie"> -->
+        <div class="bio-photo-placeholder">Inserisci qui<br/>la tua foto</div>
+        <div class="bio-text">
+          <p><strong>Giuseppe Di Bisceglie</strong> è uno studente di Musica Elettronica presso il <em>Conservatorio Martini di Bologna</em>.</p>
           <p>Formatosi inizialmente come chitarrista, tra fingerstyle, fingerpicking e armonia, ha ampliato il proprio linguaggio verso la composizione elettronica ed elettroacustica.</p>
           <p>Attivo in studio e dal vivo, lavora con strumenti digitali e analogici, elettronica live e improvvisazione elettroacustica, sia in solo sia in collaborazione con altri musicisti.</p>
-          <p>Utilizza quotidianamente <em>Ableton Live</em>, <em>Max/MSP</em> e <em>Reaper</em>, con una particolare attenzione all’<strong>Ambisonics</strong> e alla composizione multicanale.</p>
-          <div class="facts">
+          <p>Utilizza quotidianamente <em>Ableton Live</em>, <em>Max/MSP</em> e <em>Reaper</em>, con una particolare attenzione all'<em>Ambisonics</em> e alla composizione multicanale.</p>
+          <div class="bio-facts">
             <div class="fact"><span>Base</span><strong>Bologna, Italia</strong></div>
-            <div class="fact"><span>Practice</span><strong>Sound art / Live electronics</strong></div>
-            <div class="fact"><span>CV</span><a href="#" onclick="alert('Inserisci qui il link al tuo CV'); return false;">Download CV ↗</a></div>
+            <div class="fact"><span>Practice</span><strong>Sound art · Live electronics</strong></div>
+            <div class="fact"><span>Tools</span><strong>Ableton Live · Max/MSP · Reaper</strong></div>
+            <div class="fact"><span>CV</span><a href="https://drive.google.com/file/d/1SyBPkz8ruXEt66gW55QVbeDiR-jndObN/view" target="_blank" rel="noreferrer">Download CV ↗</a></div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+    <div class="page-footer">© 2025 Giuseppe Di Bisceglie</div>
+  </div>
 
-    <section id="music">
-      <div class="section-head">
-        <div class="section-number">Selected work</div>
-        <h2>Music</h2>
-      </div>
-      <div class="work-list">
-        <article class="work-item">
-          <div class="work-title">Drosophila</div><div class="year">2025</div>
-          <div class="work-description">Composizione elettroacustica. Un organismo sonoro costruito tra dettaglio microscopico, gesto e trasformazione.</div>
-        </article>
-        <article class="work-item">
-          <div class="work-title">Madeleine</div><div class="year">2024</div>
-          <div class="work-description">Materiali acustici eterogenei — palloncini, glockenspiel e giocattoli — dialogano con frammenti pop-rock, attivando una memoria a mosaico.</div>
-        </article>
-        <article class="work-item">
-          <div class="work-title">ImLovingIT</div><div class="year">2023</div>
-          <div class="work-description">Debris, rifiuti e materiali consumati diventano materia prima per un’indagine sul suono delle cose abbandonate.</div>
-        </article>
-      </div>
-      <p class="section-copy" style="margin-top:28px; color:var(--muted);">Per aggiungere un brano, inserisci qui un file audio ospitato online:</p>
-      <!-- Esempio: <audio class="audio" controls src="URL-DEL-TUO-FILE.mp3"></audio> -->
-    </section>
+  <!-- ══════════════ MUSIC ══════════════ -->
+  <div class="page" id="page-music">
+    <div class="topbar">
+      <button class="home-btn" onclick="goTo('home')">← Home</button>
+      <span class="topbar-label">Giuseppe Di Bisceglie</span>
+    </div>
+    <div class="inner-page">
+      <div class="page-eyebrow">Selected work</div>
+      <h1 class="page-title">Music</h1>
+      <div class="track-list">
 
-    <section id="video">
-      <div class="section-head">
-        <div class="section-number">Moving image</div>
-        <h2>Video</h2>
-      </div>
-      <div class="video-card">
-        <div class="video-frame">
-          <div><div class="play">▶</div><p>Inserisci qui il tuo video YouTube o Vimeo</p></div>
+        <div class="track">
+          <div class="track-info">
+            <div class="track-title">Drosophila</div>
+            <div class="track-year">2025</div>
+            <div class="track-desc">Composizione elettroacustica. Un organismo sonoro costruito tra dettaglio microscopico, gesto e trasformazione.</div>
+            <!-- Sostituisci src con il percorso del tuo file: audio/drosophila.mp3 -->
+            <audio class="track-player" controls>
+              <source src="audio/drosophila.mp3" type="audio/mpeg" />
+            </audio>
+            <div class="audio-note">← Carica il file in audio/drosophila.mp3</div>
+          </div>
+          <div class="track-num">01</div>
         </div>
-        <div class="video-caption"><strong>BiangBiang24</strong><span>Audio-visual composition · 2024</span></div>
-        <p class="section-copy">Un collage audiovisivo nato da registrazioni amatoriali realizzate durante un viaggio in Cina: cibo, rituali quotidiani e velocità urbana si incontrano in un paesaggio di memoria.</p>
-      </div>
-      <!-- Per incorporare un video, sostituisci il video-frame con un iframe YouTube/Vimeo. -->
-    </section>
 
-    <section class="page-section" id="experiences">
-      <div class="section-head">
-        <div class="section-number">Live / Research</div>
-        <h2>Experiences</h2>
-      </div>
-      <div>
-        <article class="experience"><div class="experience-date">10 / 2025<br />Ioannina, Greece</div><div><h3>Electroacoustic Music Days 2025 — HELMCA</h3><p>Presentazione della composizione <em>Madeleine</em> al festival organizzato dalla Hellenic Electroacoustic Music Composers Association.</p></div></article>
-        <article class="experience"><div class="experience-date">10 / 2025<br />Yerevan, Armenia</div><div><h3>Antanèlee — HIGH FEST</h3><p>Sound artist e performer di musica live nella performance curata da Tsolak Mlke-Galstyan e MIHR Theatre.</p></div></article>
-        <article class="experience"><div class="experience-date">04 / 2025<br />Bologna, Italy</div><div><h3>Motus — Acusmonium Workshop</h3><p>Workshop di tre giorni sulla performance con acusmonium e oltre 30 altoparlanti, concluso con un concerto finale.</p></div></article>
-        <article class="experience"><div class="experience-date">2025<br />Yerevan, Armenia</div><div><h3>Études Lab #1 — Hosq</h3><p>Collaborazione alla creazione di una performance teatrale, con composizione e sound design per installazioni ed elettronica live.</p></div></article>
-      </div>
-    </section>
-  </main>
+        <div class="track">
+          <div class="track-info">
+            <div class="track-title">Madeleine</div>
+            <div class="track-year">2024</div>
+            <div class="track-desc">Materiali acustici eterogenei — palloncini, glockenspiel e giocattoli — dialogano con frammenti pop-rock, attivando una memoria a mosaico.</div>
+            <audio class="track-player" controls>
+              <source src="audio/madeleine.mp3" type="audio/mpeg" />
+            </audio>
+            <div class="audio-note">← Carica il file in audio/madeleine.mp3</div>
+          </div>
+          <div class="track-num">02</div>
+        </div>
 
-  <footer class="shell">
-    <div>© 2025 Giuseppe Di Bisceglie</div>
-    <div class="socials"><a href="https://www.instagram.com/josef.lynn/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="mailto:giuseppe.dibisceglie@xtech.ai">Email ↗</a><a href="tel:+393917368844">Mobile ↗</a></div>
-  </footer>
+        <div class="track">
+          <div class="track-info">
+            <div class="track-title">ImLovingIT</div>
+            <div class="track-year">2023</div>
+            <div class="track-desc">Debris, rifiuti e materiali consumati diventano materia prima per un'indagine sul suono delle cose abbandonate.</div>
+            <audio class="track-player" controls>
+              <source src="audio/imlovingit.mp3" type="audio/mpeg" />
+            </audio>
+            <div class="audio-note">← Carica il file in audio/imlovingit.mp3</div>
+          </div>
+          <div class="track-num">03</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="page-footer">© 2025 Giuseppe Di Bisceglie</div>
+  </div>
+
+  <!-- ══════════════ VIDEO ══════════════ -->
+  <div class="page" id="page-video">
+    <div class="topbar">
+      <button class="home-btn" onclick="goTo('home')">← Home</button>
+      <span class="topbar-label">Giuseppe Di Bisceglie</span>
+    </div>
+    <div class="inner-page">
+      <div class="page-eyebrow">Moving image</div>
+      <h1 class="page-title">Video</h1>
+      <div class="video-list">
+
+        <div class="video-item">
+          <div class="video-frame-wrap">
+            <!-- Per inserire un video YouTube, sostituisci il div .video-placeholder con:
+                 <iframe src="https://www.youtube.com/embed/ID_VIDEO" title="BiangBiang24" allowfullscreen></iframe> -->
+            <div class="video-placeholder">
+              <div class="play-icon">▶</div>
+              <span>Incolla qui il link YouTube o Vimeo</span>
+            </div>
+          </div>
+          <div class="video-meta">
+            <div class="video-title">BiangBiang24</div>
+            <div class="video-year">2024</div>
+          </div>
+          <div class="video-desc">Un collage audiovisivo nato da registrazioni amatoriali realizzate durante un viaggio in Cina: cibo, rituali quotidiani e velocità urbana si incontrano in un paesaggio di memoria.</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="page-footer">© 2025 Giuseppe Di Bisceglie</div>
+  </div>
+
+  <!-- ══════════════ EXPERIENCES ══════════════ -->
+  <div class="page" id="page-experiences">
+    <div class="topbar">
+      <button class="home-btn" onclick="goTo('home')">← Home</button>
+      <span class="topbar-label">Giuseppe Di Bisceglie</span>
+    </div>
+    <div class="inner-page">
+      <div class="page-eyebrow">Live · Research</div>
+      <h1 class="page-title">Experiences</h1>
+      <div class="exp-list">
+
+        <div class="exp-item">
+          <div><div class="exp-date">10 / 2025</div><div class="exp-place">Ioannina, Greece</div></div>
+          <div><div class="exp-title">Electroacoustic Music Days 2025 — HELMCA</div><div class="exp-desc">Presentazione della composizione <em>Madeleine</em> al festival organizzato dalla Hellenic Electroacoustic Music Composers Association.</div></div>
+        </div>
+
+        <div class="exp-item">
+          <div><div class="exp-date">10 / 2025</div><div class="exp-place">Yerevan, Armenia</div></div>
+          <div><div class="exp-title">Antanèlee — HIGH FEST International</div><div class="exp-desc">Sound artist e performer di musica live nella performance curata da Tsolak Mlke-Galstyan e MIHR Theatre.</div></div>
+        </div>
+
+        <div class="exp-item">
+          <div><div class="exp-date">04 / 2025</div><div class="exp-place">Bologna, Italy</div></div>
+          <div><div class="exp-title">Motus — Acusmonium Workshop</div><div class="exp-desc">Workshop di tre giorni sulla performance con acusmonium e oltre 30 altoparlanti, concluso con un concerto finale.</div></div>
+        </div>
+
+        <div class="exp-item">
+          <div><div class="exp-date">2025</div><div class="exp-place">Yerevan, Armenia</div></div>
+          <div><div class="exp-title">Études Lab #1 — Hosq</div><div class="exp-desc">Collaborazione alla creazione di una performance teatrale, con composizione e sound design per installazioni ed elettronica live.</div></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="page-footer">© 2025 Giuseppe Di Bisceglie</div>
+  </div>
+
+  <!-- ══════════════ CONTACTS ══════════════ -->
+  <div class="page" id="page-contacts">
+    <div class="topbar">
+      <button class="home-btn" onclick="goTo('home')">← Home</button>
+      <span class="topbar-label">Giuseppe Di Bisceglie</span>
+    </div>
+    <div class="inner-page">
+      <div class="page-eyebrow">Get in touch</div>
+      <h1 class="page-title">Contacts</h1>
+      <div class="contacts-grid">
+        <div class="contact-block">
+          <h3>Email</h3>
+          <a href="mailto:giuseppe.dibisceglie@xtech.ai">giuseppe.dibisceglie@xtech.ai</a>
+        </div>
+        <div class="contact-block">
+          <h3>Mobile</h3>
+          <a href="tel:+393917368844">+39 391 736 8844</a>
+        </div>
+        <div class="contact-block">
+          <h3>Based in</h3>
+          <span style="font-size:1.15rem;">Bologna, Italia</span>
+        </div>
+        <div class="contact-block">
+          <h3>CV</h3>
+          <a href="https://drive.google.com/file/d/1SyBPkz8ruXEt66gW55QVbeDiR-jndObN/view" target="_blank" rel="noreferrer">Download CV ↗</a>
+        </div>
+      </div>
+      <hr class="contact-divider" />
+      <div class="contact-social">
+        <a class="social-btn" href="https://www.instagram.com/josef.lynn/" target="_blank" rel="noreferrer">Instagram ↗</a>
+        <a class="social-btn" href="mailto:giuseppe.dibisceglie@xtech.ai">Email ↗</a>
+        <a class="social-btn" href="tel:+393917368844">Mobile ↗</a>
+        <a class="social-btn" href="https://drive.google.com/file/d/1SyBPkz8ruXEt66gW55QVbeDiR-jndObN/view" target="_blank" rel="noreferrer">CV ↗</a>
+      </div>
+    </div>
+    <div class="page-footer">© 2025 Giuseppe Di Bisceglie</div>
+  </div>
+
+  <script>
+    function goTo(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      document.getElementById('page-' + name).scrollTop = 0;
+    }
+  </script>
 </body>
 </html>
