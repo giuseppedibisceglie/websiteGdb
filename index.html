@@ -147,7 +147,13 @@
     .track-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 600; letter-spacing: -.04em; line-height: 1; margin-bottom: 6px; }
     .track-year { color: var(--accent); font-size: .82rem; letter-spacing: .12em; margin-bottom: 10px; }
     .track-desc { color: var(--muted); font-size: .95rem; max-width: 560px; margin-bottom: 14px; }
-    .track-player { width: 100%; height: 36px; accent-color: var(--accent); margin-top: 4px; }
+    .audio-frame {
+      width: 100%;
+      height: 82px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      margin-top: 18px;
+    }
     .track-link {
       display: inline-flex; align-items: center; gap: 8px;
       margin-top: 12px; padding: 9px 20px;
@@ -161,9 +167,9 @@
 
     /* ── VIDEO ── */
     .video-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
     }
     .video-card { display: flex; flex-direction: column; gap: 0; }
     .video-frame-wrap {
@@ -231,9 +237,6 @@
     .page-footer { padding: 28px 48px; text-align: center; font-size: .75rem; color: var(--muted); border-top: 1px solid var(--line); letter-spacing: .1em; }
 
     /* ── MOBILE ── */
-    @media (max-width: 900px) {
-      .video-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
-    }
     @media (max-width: 700px) {
       .topbar { padding: 20px 24px; }
       .home-bottom { padding: 0 24px 40px; }
@@ -320,7 +323,7 @@
             <div class="track-title">Drosophila</div>
             <div class="track-year">2025</div>
             <div class="track-desc">Composizione elettroacustica. Un organismo sonoro costruito tra dettaglio microscopico, gesto e trasformazione.</div>
-            <a class="track-link" href="https://drive.google.com/file/d/1VCbeDUuptTay6QUQzoZCt0JF-uviyv0R/view?usp=drive_link" target="_blank" rel="noreferrer">▶ Ascolta Drosophila</a>
+            <iframe class="audio-frame" src="https://drive.google.com/file/d/1VCbeDUuptTay6QUQzoZCt0JF-uviyv0R/preview" title="Drosophila audio player" allow="autoplay"></iframe>
           </div>
           <div class="track-num">01</div>
         </div>
@@ -330,7 +333,7 @@
             <div class="track-title">Madeleine</div>
             <div class="track-year">2024</div>
             <div class="track-desc">Materiali acustici eterogenei — palloncini, glockenspiel e giocattoli — dialogano con frammenti pop-rock, attivando una memoria a mosaico.</div>
-            <a class="track-link" href="https://drive.google.com/file/d/1XQcJ_wLapBJNywTtIxmLxweioG-P7e7a/view?usp=drive_link" target="_blank" rel="noreferrer">▶ Ascolta Madeleine</a>
+            <iframe class="audio-frame" src="https://drive.google.com/file/d/1XQcJ_wLapBJNywTtIxmLxweioG-P7e7a/preview" title="Madeleine audio player" allow="autoplay"></iframe>
           </div>
           <div class="track-num">02</div>
         </div>
@@ -340,7 +343,7 @@
             <div class="track-title">ImLovingIT</div>
             <div class="track-year">2023</div>
             <div class="track-desc">Debris, rifiuti e materiali consumati diventano materia prima per un'indagine sul suono delle cose abbandonate.</div>
-            <a class="track-link" href="https://drive.google.com/file/d/1q91J0NyhFbRrD4DMg2zGq1Bk-6CwFhgi/view?usp=drive_link" target="_blank" rel="noreferrer">▶ Ascolta ImLovingIT</a>
+            <iframe class="audio-frame" src="https://drive.google.com/file/d/1q91J0NyhFbRrD4DMg2zGq1Bk-6CwFhgi/preview" title="ImLovingIT audio player" allow="autoplay"></iframe>
           </div>
           <div class="track-num">03</div>
         </div>
@@ -361,24 +364,7 @@
       <h1 class="page-title">Video</h1>
       <div class="video-grid">
 
-        <!-- VIDEO 1 · 2024 -->
-        <div class="video-card">
-          <div class="video-frame-wrap">
-            <iframe src="https://drive.google.com/file/d/1c5LFqkvMYqndsO3ZE5oXPNXzt0d8zXMK/preview" title="BiangBiang24" allowfullscreen></iframe>
-          </div>
-          <div class="video-card-meta">
-            <div class="video-card-header">
-              <div class="video-card-title">BiangBiang24</div>
-              <div class="video-card-year">2024</div>
-            </div>
-            <details class="video-accordion">
-              <summary>Descrizione</summary>
-              <div class="video-accordion-body">Un collage audiovisivo nato da registrazioni amatoriali durante un viaggio in Cina: cibo, rituali quotidiani e velocità urbana si incontrano in un paesaggio di memoria.</div>
-            </details>
-          </div>
-        </div>
-
-        <!-- VIDEO 2 · 2026 -->
+        <!-- VIDEO 1 · 2026 -->
         <div class="video-card">
           <div class="video-frame-wrap">
             <iframe src="https://drive.google.com/file/d/1QIY469YPEwH4uGxxQ_RxQbBldEOEh2Ki/preview" title="Distortion of Lights" allowfullscreen></iframe>
@@ -389,13 +375,13 @@
               <div class="video-card-year">2026</div>
             </div>
             <details class="video-accordion">
-              <summary>Descrizione</summary>
-              <div class="video-accordion-body">Descrizione del secondo video da inserire.</div>
+              <summary>Synopsis</summary>
+              <div class="video-accordion-body">Synopsis coming soon.</div>
             </details>
           </div>
         </div>
 
-        <!-- VIDEO 3 · 2026 -->
+        <!-- VIDEO 2 · 2026 -->
         <div class="video-card">
           <div class="video-frame-wrap">
             <iframe src="https://drive.google.com/file/d/1uoeTd0MLQ37Z6vo-nbLgd2vheeK9sYVB/preview" title="Untitled" allowfullscreen></iframe>
@@ -406,8 +392,25 @@
               <div class="video-card-year">2026</div>
             </div>
             <details class="video-accordion">
-              <summary>Descrizione</summary>
-              <div class="video-accordion-body">Descrizione del terzo video da inserire.</div>
+              <summary>Synopsis</summary>
+              <div class="video-accordion-body">Synopsis coming soon.</div>
+            </details>
+          </div>
+        </div>
+
+        <!-- VIDEO 3 · 2024 -->
+        <div class="video-card">
+          <div class="video-frame-wrap">
+            <iframe src="https://drive.google.com/file/d/1c5LFqkvMYqndsO3ZE5oXPNXzt0d8zXMK/preview" title="BiangBiang24" allowfullscreen></iframe>
+          </div>
+          <div class="video-card-meta">
+            <div class="video-card-header">
+              <div class="video-card-title">BiangBiang24</div>
+              <div class="video-card-year">2024</div>
+            </div>
+            <details class="video-accordion">
+              <summary>Synopsis</summary>
+              <div class="video-accordion-body">An audiovisual collage born from amateur recordings made during a journey through China: food, everyday rituals and urban speed meet in a landscape of memory.</div>
             </details>
           </div>
         </div>
