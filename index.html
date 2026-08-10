@@ -144,7 +144,7 @@
 
     /* ── MUSIC ── */
     .track-list { display: flex; flex-direction: column; }
-    .track { display: grid; grid-template-columns: 1fr 80px; gap: 16px; padding: 28px 0; border-bottom: 1px solid var(--line); }
+    .track { display: block; padding: 18px 0; border-bottom: 1px solid var(--line); }
     .track-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 600; letter-spacing: -.04em; line-height: 1; margin-bottom: 6px; }
     .track-year { color: var(--accent); font-size: .82rem; letter-spacing: .12em; margin-bottom: 10px; }
     .track-desc { color: var(--muted); font-size: .95rem; max-width: 560px; margin-bottom: 14px; }
@@ -168,10 +168,10 @@
     .track-accordion-body { color: var(--muted); font-size: .95rem; max-width: 700px; line-height: 1.6; padding: 10px 0 2px; }
     .audio-frame {
       width: 100%;
-      height: 150px;
+      height: 190px;
       border: 1px solid rgba(216,121,69,.32);
       background: var(--panel);
-      margin-top: 18px;
+      margin-top: 12px;
       box-shadow: 0 0 0 1px rgba(255,255,255,.02);
     }
     .track-link {
@@ -183,7 +183,6 @@
       text-decoration: none; transition: background .2s, color .2s;
     }
     .track-link:hover { background: var(--accent); color: var(--paper); }
-    .track-num { font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; font-weight: 700; color: var(--line); text-align: right; line-height: 1; padding-top: 4px; }
 
     /* ── VIDEO ── */
     .video-grid {
@@ -234,11 +233,11 @@
 
     /* ── EXPERIENCES ── */
     .exp-list { display: flex; flex-direction: column; }
-    .exp-item { display: grid; grid-template-columns: 200px 1fr; gap: 32px; padding: 24px 0; border-bottom: 1px solid var(--line); }
-    .exp-date { color: var(--accent); font-size: .85rem; letter-spacing: .1em; line-height: 1.5; }
-    .exp-place { color: var(--muted); font-size: .82rem; margin-top: 4px; }
-    .exp-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 600; letter-spacing: -.03em; margin-bottom: 6px; }
-    .exp-desc { color: var(--muted); font-size: .95rem; }
+    .exp-item { display: grid; grid-template-columns: 170px 1fr; gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+    .exp-date { color: var(--accent); font-size: .76rem; letter-spacing: .08em; line-height: 1.4; }
+    .exp-place { color: var(--muted); font-size: .72rem; margin-top: 2px; }
+    .exp-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.08rem; font-weight: 600; letter-spacing: -.025em; margin-bottom: 3px; }
+    .exp-desc { color: var(--muted); font-size: .78rem; line-height: 1.45; }
 
     /* ── CONTACTS ── */
     .contacts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px 80px; margin-bottom: 60px; }
@@ -267,7 +266,7 @@
       .home-name { font-size: clamp(2.2rem, 11vw, 4rem); }
       .inner-page { padding: 90px 24px 60px; }
       .bio-grid { grid-template-columns: 1fr; gap: 32px; }
-      .track { grid-template-columns: 1fr; }
+      .track { display: block; }
       .track-num { display: none; }
       .exp-item { grid-template-columns: 1fr; gap: 6px; }
       .contacts-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -352,7 +351,6 @@
             </details>
             <iframe class="audio-frame" src="https://drive.google.com/file/d/1VCbeDUuptTay6QUQzoZCt0JF-uviyv0R/preview" title="Drosophila audio player" allow="autoplay"></iframe>
           </div>
-          <div class="track-num">01</div>
         </div>
 
         <div class="track">
@@ -365,7 +363,6 @@
             </details>
             <iframe class="audio-frame" src="https://drive.google.com/file/d/1XQcJ_wLapBJNywTtIxmLxweioG-P7e7a/preview" title="Madeleine audio player" allow="autoplay"></iframe>
           </div>
-          <div class="track-num">02</div>
         </div>
 
         <div class="track">
@@ -378,7 +375,6 @@
             </details>
             <iframe class="audio-frame" src="https://drive.google.com/file/d/1q91J0NyhFbRrD4DMg2zGq1Bk-6CwFhgi/preview" title="ImLovingIT audio player" allow="autoplay"></iframe>
           </div>
-          <div class="track-num">03</div>
         </div>
 
       </div>
@@ -464,20 +460,28 @@
       <h1 class="page-title">Experiences</h1>
       <div class="exp-list">
         <div class="exp-item">
+          <div><div class="exp-date">22 / 03 / 2026</div><div class="exp-place">Bologna, Italy</div></div>
+          <div><div class="exp-title">Collective Electroacoustic Improvisation — AtelierSi</div><div class="exp-desc">Collective electroacoustic improvisation session at AtelierSi, Bologna.</div></div>
+        </div>
+        <div class="exp-item">
+          <div><div class="exp-date">17 / 01 / 2026</div><div class="exp-place">Bologna, Italy</div></div>
+          <div><div class="exp-title">SuonoForma — Conservatory of Bologna</div><div class="exp-desc">Presentation of <em>Drosophila</em> at SuonoForma.</div></div>
+        </div>
+        <div class="exp-item">
           <div><div class="exp-date">10 / 2025</div><div class="exp-place">Ioannina, Greece</div></div>
-          <div><div class="exp-title">Electroacoustic Music Days 2025 — HELMCA</div><div class="exp-desc">Presentazione della composizione <em>Madeleine</em> al festival organizzato dalla Hellenic Electroacoustic Music Composers Association.</div></div>
+          <div><div class="exp-title">Electroacoustic Music Days 2025 — HELMCA</div><div class="exp-desc">Presentation of <em>Madeleine</em> at the festival organized by the Hellenic Electroacoustic Music Composers Association.</div></div>
         </div>
         <div class="exp-item">
           <div><div class="exp-date">10 / 2025</div><div class="exp-place">Yerevan, Armenia</div></div>
-          <div><div class="exp-title">Antanèlee — HIGH FEST International</div><div class="exp-desc">Sound artist e performer di musica live nella performance curata da Tsolak Mlke-Galstyan e MIHR Theatre.</div></div>
-        </div>
-        <div class="exp-item">
-          <div><div class="exp-date">04 / 2025</div><div class="exp-place">Bologna, Italy</div></div>
-          <div><div class="exp-title">Motus — Acusmonium Workshop</div><div class="exp-desc">Workshop di tre giorni sulla performance con acusmonium e oltre 30 altoparlanti, concluso con un concerto finale.</div></div>
+          <div><div class="exp-title">Antanèlee — HIGH FEST International</div><div class="exp-desc">Sound artist and live music performer in the performance curated by Tsolak Mlke-Galstyan and MIHR Theatre.</div></div>
         </div>
         <div class="exp-item">
           <div><div class="exp-date">2025</div><div class="exp-place">Yerevan, Armenia</div></div>
-          <div><div class="exp-title">Études Lab #1 — Hosq</div><div class="exp-desc">Collaborazione alla creazione di una performance teatrale, con composizione e sound design per installazioni ed elettronica live.</div></div>
+          <div><div class="exp-title">Études Lab #1 — Hosq</div><div class="exp-desc">Collaboration on the creation of a theatrical performance, including composition and sound design for installations and live electronics.</div></div>
+        </div>
+        <div class="exp-item">
+          <div><div class="exp-date">04 / 2025</div><div class="exp-place">Bologna, Italy</div></div>
+          <div><div class="exp-title">Motus — Acusmonium Workshop</div><div class="exp-desc">Three-day workshop on performing with an acusmonium and more than 30 loudspeakers, culminating in a final concert.</div></div>
         </div>
       </div>
     </div>
