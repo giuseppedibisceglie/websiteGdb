@@ -262,8 +262,17 @@
     /* ── MOBILE ── */
     @media (max-width: 700px) {
       .topbar { padding: 20px 24px; }
-      .home-bottom { padding: 0 24px 40px; }
-      .home-name { font-size: clamp(2.2rem, 11vw, 4rem); }
+      .home-bottom { padding: 0 20px 40px; }
+      .home-name {
+        width: 100%;
+        padding: 0 4px;
+        font-size: clamp(2rem, 10vw, 3.4rem);
+        letter-spacing: -.08em;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: .98;
+        text-align: center;
+      }
       .home-nav {
         width: min(100%, 360px);
         display: grid;
