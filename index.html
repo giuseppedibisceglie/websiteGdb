@@ -51,7 +51,7 @@
     .track-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 600; letter-spacing: -.04em; line-height: 1; margin-bottom: 6px; }
     .track-year { color: var(--accent); font-size: .82rem; letter-spacing: .12em; margin-bottom: 10px; }
     .track-desc { color: var(--muted); font-size: .95rem; max-width: 560px; margin-bottom: 14px; }
-    .track-accordion { margin: 10px 0 14px; }
+    .track-accordion { margin: 14px 0 4px; }
     .track-accordion summary { list-style: none; cursor: pointer; color: var(--muted); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; display: flex; align-items: center; gap: 6px; transition: color .2s; }
     .track-accordion summary::-webkit-details-marker { display: none; }
     .track-accordion summary::before { content: '+'; color: var(--accent); font-size: 1rem; line-height: 1; }
@@ -89,7 +89,37 @@
     .exp-place { color: var(--muted); font-size: .72rem; margin-top: 2px; }
     .exp-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.08rem; font-weight: 600; letter-spacing: -.025em; margin-bottom: 3px; }
     .exp-desc { color: var(--muted); font-size: .78rem; line-height: 1.45; }
-    .presented { margin: 12px 0 14px; }
+    .wf { display: grid; grid-template-columns: 64px minmax(150px, 230px) minmax(0, 1fr); gap: 24px; align-items: center; }
+    .wf .track-title { margin-bottom: 6px; }
+    .wf .track-year { margin: 0; }
+    .wf-play { width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--accent); background: none; color: var(--accent); display: grid; place-items: center; cursor: pointer; transition: background .2s, color .2s; }
+    .wf-play svg { width: 24px; height: 24px; display: block; }
+    .wf-play:not(.is-playing) svg { margin-left: 3px; }
+    .wf-play:hover { background: rgba(216,121,69,.12); }
+    .wf-play.is-playing { background: var(--accent); color: var(--paper); }
+    .wf-play:focus-visible, .wf-wave:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+    .wf-wave { height: 64px; cursor: pointer; touch-action: none; }
+    .wf-wave canvas { width: 100%; height: 100%; display: block; }
+    .wf-time { display: flex; justify-content: space-between; color: var(--muted); font-size: .75rem; margin-top: 6px; font-variant-numeric: tabular-nums; }
+    .vt { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+    .vt-item[hidden] { display: none; }
+    .vt-list { display: flex; flex-direction: column; border-bottom: 1px solid var(--line); }
+    .vt-pick { display: flex; gap: 16px; align-items: center; width: 100%; padding: 12px 0; border: 0; border-top: 1px solid var(--line); background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+    .vt-thumb { flex: none; display: block; width: 128px; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--line); background: repeating-linear-gradient(90deg, #201d1a 0 3px, var(--panel) 3px 14px); transition: border-color .2s; }
+    .vt-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .7; transition: opacity .2s; }
+    .vt-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .vt-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 600; letter-spacing: -.03em; line-height: 1.2; transition: color .2s; }
+    .vt-year { color: var(--muted); font-size: .8rem; }
+    .vt-now { display: none; color: var(--accent); font-size: .75rem; letter-spacing: .08em; }
+    .vt-pick:hover .vt-title { color: var(--accent); }
+    .vt-pick:hover img { opacity: 1; }
+    .vt-pick:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .vt-pick.active .vt-thumb { border-color: var(--accent); }
+    .vt-pick.active img { opacity: 1; }
+    .vt-pick.active .vt-year { display: none; }
+    .vt-pick.active .vt-now { display: inline; }
+    .presented { margin: 18px 0 4px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .track-accordion-body > p:only-child, .video-accordion-body > p:only-child { margin: 0; }
     .presented-label { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
     .presented-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
     .presented-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; padding-left: 14px; position: relative; font-size: .9rem; line-height: 1.4; }
@@ -124,6 +154,10 @@
       .inner-page { padding: 90px 24px 60px; }
       .bio-grid { grid-template-columns: 1fr; gap: 32px; }
       .exp-item { grid-template-columns: 1fr; gap: 6px; }
+      .wf { grid-template-columns: 56px minmax(0, 1fr); gap: 16px; }
+      .wf-play { width: 56px; height: 56px; }
+      .wf-body { grid-column: 1 / -1; }
+      .vt { grid-template-columns: 1fr; gap: 24px; }
       .contacts-grid { grid-template-columns: 1fr; gap: 32px; }
       .video-grid { width: 100%; grid-template-columns: 1fr; gap: 32px; }
       .video-frame-wrap { width: 100%; aspect-ratio: 16 / 9; min-height: 0; }
@@ -211,17 +245,19 @@
           <div class="track-info">
             <div class="track-title">Drosophila</div>
             <div class="track-year">2025</div>
+            <iframe class="audio-frame" src="https://drive.google.com/file/d/1VCbeDUuptTay6QUQzoZCt0JF-uviyv0R/preview" title="Drosophila audio player" allow="autoplay"></iframe>
             <details class="track-accordion">
               <summary>Synopsis</summary>
-              <div class="track-accordion-body">Wingbeats at 240 Hz and other annoyinssssssssssssssssssg buzzes.</div>
-            </details>
-            <div class="presented">
+              <div class="track-accordion-body">
+                <p>Wingbeats at 240 Hz and other annoyinssssssssssssssssssg buzzes.</p>
+                <div class="presented">
               <div class="presented-label">Presented</div>
               <ul class="presented-list">
                 <li><span class="presented-event">SuonoForma — Conservatory of Bologna</span><span class="presented-meta">Bologna, Italy · 17 / 01 / 2026</span></li>
               </ul>
             </div>
-            <iframe class="audio-frame" src="https://drive.google.com/file/d/1VCbeDUuptTay6QUQzoZCt0JF-uviyv0R/preview" title="Drosophila audio player" allow="autoplay"></iframe>
+              </div>
+            </details>
           </div>
         </div>
 
@@ -229,18 +265,19 @@
           <div class="track-info">
             <div class="track-title">Madeleine</div>
             <div class="track-year">2024</div>
+            <iframe class="audio-frame" src="https://drive.google.com/file/d/1XQcJ_wLapBJNywTtIxmLxweioG-P7e7a/preview" title="Madeleine audio player" allow="autoplay"></iframe>
             <details class="track-accordion">
               <summary>Synopsis</summary>
-              <div class="track-accordion-body">Madeleine intertwines heterogeneous acoustic materials, such as balloons, glockenspiel, and various toys, with evocative fragments of pop-rock tracks. The moments of clear recognizability of the sources, contrasted with electroacoustic reworkings of various kinds, aim to activate memory processes, allowing imagination to assemble a frosted mosaic of memories.</div>
-            </details>
-            <div class="presented">
+              <div class="track-accordion-body">
+                <p>Madeleine intertwines heterogeneous acoustic materials, such as balloons, glockenspiel, and various toys, with evocative fragments of pop-rock tracks. The moments of clear recognizability of the sources, contrasted with electroacoustic reworkings of various kinds, aim to activate memory processes, allowing imagination to assemble a frosted mosaic of memories.</p>
+                <div class="presented">
               <div class="presented-label">Presented</div>
               <ul class="presented-list">
                 <li><span class="presented-event">Electroacoustic Music Days 2025 — HELMCA</span><span class="presented-meta">Ioannina, Greece · 10 / 2025</span></li>
-                <li><span class="presented-event">SuonoDomenica</span><span class="presented-meta">Bologna, IT · 2025</span></li>
               </ul>
             </div>
-            <iframe class="audio-frame" src="https://drive.google.com/file/d/1XQcJ_wLapBJNywTtIxmLxweioG-P7e7a/preview" title="Madeleine audio player" allow="autoplay"></iframe>
+              </div>
+            </details>
           </div>
         </div>
 
@@ -248,12 +285,14 @@
           <div class="track-info">
             <div class="track-title">ImLovingIT</div>
             <div class="track-year">2023</div>
+            <iframe class="audio-frame" src="https://drive.google.com/file/d/1q91J0NyhFbRrD4DMg2zGq1Bk-6CwFhgi/preview" title="ImLovingIT audio player" allow="autoplay"></iframe>
             <details class="track-accordion">
               <summary>Synopsis</summary>
-              <div class="track-accordion-body">Debris, waste, and other bulky consumed materials.</div>
+              <div class="track-accordion-body">
+                <p>Debris, waste, and other bulky consumed materials.</p>
+                
+              </div>
             </details>
-            
-            <iframe class="audio-frame" src="https://drive.google.com/file/d/1q91J0NyhFbRrD4DMg2zGq1Bk-6CwFhgi/preview" title="ImLovingIT audio player" allow="autoplay"></iframe>
           </div>
         </div>
       </div>
@@ -270,81 +309,92 @@
     <div class="inner-page">
       <div class="page-eyebrow">Moving image</div>
       <h1 class="page-title">Video</h1>
-      <div class="video-grid">
 
-        <div class="video-card">
-          <div class="video-frame-wrap">
-            <iframe src="https://drive.google.com/file/d/1QIY469YPEwH4uGxxQ_RxQbBldEOEh2Ki/preview" title="Distortion of Lights" allowfullscreen></iframe>
-            <a class="mobile-video-link has-cover" href="https://drive.google.com/file/d/1QIY469YPEwH4uGxxQ_RxQbBldEOEh2Ki/view" target="_blank" rel="noreferrer" aria-label="Apri Distortion of Lights" style="background-image: url('images/distortion-of-lights.jpg');">
-              <span class="mobile-video-play" aria-hidden="true">▶</span>
-              <span class="mobile-video-label">Apri video</span>
-            </a>
-          </div>
-          <div class="video-card-meta">
-            <div class="video-card-header">
-              <div class="video-card-title">Distortion of Lights</div>
-              <div class="video-card-year">2026</div>
+      <div class="vt" data-start="0">
+        <div class="vt-stage">
+          <div class="vt-item">
+            <div class="video-frame-wrap">
+              <iframe data-src="https://drive.google.com/file/d/1QIY469YPEwH4uGxxQ_RxQbBldEOEh2Ki/preview" title="Distortion of Lights" allowfullscreen></iframe>
+              <a class="mobile-video-link has-cover" href="https://drive.google.com/file/d/1QIY469YPEwH4uGxxQ_RxQbBldEOEh2Ki/view" target="_blank" rel="noreferrer" aria-label="Apri Distortion of Lights" style="background-image: url('images/distortion-of-lights.jpg');">
+                <span class="mobile-video-play" aria-hidden="true">▶</span>
+                <span class="mobile-video-label">Apri video</span>
+              </a>
             </div>
-            <details class="video-accordion">
+            <div class="video-card-meta">
+              <div class="video-card-header">
+                <div class="video-card-title">Distortion of Lights</div>
+                <div class="video-card-year">2026</div>
+              </div>
+              <details class="video-accordion">
               <summary>Synopsis</summary>
-              <div class="video-accordion-body">“Windows” is the term we use to describe specific interfaces through which we interact with our digital devices, such as smartphones and computers. We usually experience digital reality through these digital windows. In this video, however, we attempt to apply the same way of seeing to physical windows — windows that are not designed to frame or accommodate our usual way of looking.
-This mismatch results in a loss of information, becoming a metaphor for the disconnect between our digital and physical lives.</div>
+              <div class="video-accordion-body">
+                <p>Synopsis coming soon.</p>
+                
+              </div>
             </details>
-            <div class="presented">
-              <div class="presented-label">Presented</div>
-              <ul class="presented-list">
-                <li><span class="presented-event">Martini Elettrico 2026, Bologna </span><span class="presented-meta">Bologna · 2026</span></li>
-                <li><span class="presented-event">CYFEST 17</span><span class="presented-meta">Yerevan · 2026</span></li>
-              </ul>
+              <a class="collaborator-link" href="https://khlabov.site/?i=1" target="_blank" rel="noreferrer">In collaboration with Anton Khlabov ↗</a>
             </div>
-            <a class="collaborator-link" href="https://khlabov.site/?i=1" target="_blank" rel="noreferrer">In collaboration with Anton Khlabov ↗</a>
+          </div>
+          <div class="vt-item" hidden>
+            <div class="video-frame-wrap">
+              <iframe data-src="https://drive.google.com/file/d/1uoeTd0MLQ37Z6vo-nbLgd2vheeK9sYVB/preview" title="Untitled" allowfullscreen></iframe>
+              <a class="mobile-video-link has-cover" href="https://drive.google.com/file/d/1uoeTd0MLQ37Z6vo-nbLgd2vheeK9sYVB/view" target="_blank" rel="noreferrer" aria-label="Apri Untitled" style="background-image: url('images/untitled.jpg');">
+                <span class="mobile-video-play" aria-hidden="true">▶</span>
+                <span class="mobile-video-label">Apri video</span>
+              </a>
+            </div>
+            <div class="video-card-meta">
+              <div class="video-card-header">
+                <div class="video-card-title">Untitled</div>
+                <div class="video-card-year">2026</div>
+              </div>
+              <details class="video-accordion">
+              <summary>Synopsis</summary>
+              <div class="video-accordion-body">
+                <p>Synopsis coming soon.</p>
+                
+              </div>
+            </details>
+              
+            </div>
+          </div>
+          <div class="vt-item" hidden>
+            <div class="video-frame-wrap">
+              <iframe data-src="https://drive.google.com/file/d/1c5LFqkvMYqndsO3ZE5oXPNXzt0d8zXMK/preview" title="BiangBiang24" allowfullscreen></iframe>
+              <a class="mobile-video-link has-cover" href="https://drive.google.com/file/d/1c5LFqkvMYqndsO3ZE5oXPNXzt0d8zXMK/view" target="_blank" rel="noreferrer" aria-label="Apri BiangBiang24" style="background-image: url('images/biangbiang24.jpg');">
+                <span class="mobile-video-play" aria-hidden="true">▶</span>
+                <span class="mobile-video-label">Apri video</span>
+              </a>
+            </div>
+            <div class="video-card-meta">
+              <div class="video-card-header">
+                <div class="video-card-title">BiangBiang24</div>
+                <div class="video-card-year">2024</div>
+              </div>
+              <details class="video-accordion">
+              <summary>Synopsis</summary>
+              <div class="video-accordion-body">
+                <p>An audiovisual collage born from amateur recordings made during a journey through China: food, everyday rituals and urban speed meet in a landscape of memory.</p>
+                
+              </div>
+            </details>
+              
+            </div>
           </div>
         </div>
-
-        <div class="video-card">
-          <div class="video-frame-wrap">
-            <iframe src="https://drive.google.com/file/d/1uoeTd0MLQ37Z6vo-nbLgd2vheeK9sYVB/preview" title="Untitled" allowfullscreen></iframe>
-            <a class="mobile-video-link has-cover" href="https://drive.google.com/file/d/1uoeTd0MLQ37Z6vo-nbLgd2vheeK9sYVB/view" target="_blank" rel="noreferrer" aria-label="Apri Untitled" style="background-image: url('images/untitled.jpg');">
-              <span class="mobile-video-play" aria-hidden="true">▶</span>
-              <span class="mobile-video-label">Apri video</span>
-            </a>
-          </div>
-          <div class="video-card-meta">
-            <div class="video-card-header">
-              <div class="video-card-title">Untitled</div>
-              <div class="video-card-year">2026</div>
-            </div>
-            
-            
-            
-          </div>
-        </div>
-
-        <div class="video-card">
-          <div class="video-frame-wrap">
-            <iframe src="https://drive.google.com/file/d/1c5LFqkvMYqndsO3ZE5oXPNXzt0d8zXMK/preview" title="BiangBiang24" allowfullscreen></iframe>
-            <a class="mobile-video-link has-cover" href="https://drive.google.com/file/d/1c5LFqkvMYqndsO3ZE5oXPNXzt0d8zXMK/view" target="_blank" rel="noreferrer" aria-label="Apri BiangBiang24" style="background-image: url('images/biangbiang24.jpg');">
-              <span class="mobile-video-play" aria-hidden="true">▶</span>
-              <span class="mobile-video-label">Apri video</span>
-            </a>
-          </div>
-          <div class="video-card-meta">
-            <div class="video-card-header">
-              <div class="video-card-title">BiangBiang24</div>
-              <div class="video-card-year">2024</div>
-            </div>
-            <details class="video-accordion">
-              <summary>Synopsis</summary>
-              <div class="video-accordion-body">An audiovisual collage born from amateur recordings made during a journey through China: food, everyday rituals and urban speed meet in a landscape of memory.</div>
-            </details>
-            <div class="presented">
-              <div class="presented-label">Presented</div>
-              <ul class="presented-list">
-                <li><span class="presented-event">SuonoDomenica 2025</span><span class="presented-meta">2025</span></li>
-              </ul>
-            </div>
-            
-          </div>
+        <div class="vt-list" aria-label="Choose a video">
+          <button class="vt-pick" type="button" aria-pressed="true">
+            <span class="vt-thumb"><img src="images/distortion-of-lights.jpg" alt="" loading="lazy" /></span>
+            <span class="vt-info"><span class="vt-title">Distortion of Lights</span><span class="vt-year">2026</span><span class="vt-now">Now playing</span></span>
+          </button>
+          <button class="vt-pick" type="button" aria-pressed="false">
+            <span class="vt-thumb"><img src="images/untitled.jpg" alt="" loading="lazy" /></span>
+            <span class="vt-info"><span class="vt-title">Untitled</span><span class="vt-year">2026</span><span class="vt-now">Now playing</span></span>
+          </button>
+          <button class="vt-pick" type="button" aria-pressed="false">
+            <span class="vt-thumb"><img src="images/biangbiang24.jpg" alt="" loading="lazy" /></span>
+            <span class="vt-info"><span class="vt-title">BiangBiang24</span><span class="vt-year">2024</span><span class="vt-now">Now playing</span></span>
+          </button>
         </div>
       </div>
     </div>
@@ -361,11 +411,6 @@ This mismatch results in a loss of information, becoming a metaphor for the disc
       <div class="page-eyebrow">Live · Research</div>
       <h1 class="page-title">Experiences</h1>
       <div class="exp-list">
-
-        <div class="exp-item">
-          <div><div class="exp-date">15/08/2026</div><div class="exp-place">Montreal, QB</div></div>
-          <div><div class="exp-title">University of Montreal - study period</div><div class="exp-desc">A one-month exchange programme at the University of Montreal, focusing on the exploration of AI applications in music using Max/MSP.</div></div>
-        </div>
 
         <div class="exp-item">
           <div><div class="exp-date">22 / 03 / 2026</div><div class="exp-place">Bologna, Italy</div></div>
@@ -400,15 +445,6 @@ This mismatch results in a loss of information, becoming a metaphor for the disc
       <h2 class="exp-section-title">Presented works</h2>
       <div class="exp-list">
         <div class="exp-item pw-item">
-          <div><div class="exp-date">Video · 2026</div></div>
-          <div><div class="exp-title">Distortion of Lights</div>
-              <ul class="presented-list">
-                <li><span class="presented-event">Martini Elettrico 2026, Bologna </span><span class="presented-meta">Bologna · 2026</span></li>
-                <li><span class="presented-event">CYFEST 17</span><span class="presented-meta">Yerevan · 2026</span></li>
-              </ul>
-          </div>
-        </div>
-        <div class="exp-item pw-item">
           <div><div class="exp-date">Music · 2025</div></div>
           <div><div class="exp-title">Drosophila</div>
               <ul class="presented-list">
@@ -421,15 +457,6 @@ This mismatch results in a loss of information, becoming a metaphor for the disc
           <div><div class="exp-title">Madeleine</div>
               <ul class="presented-list">
                 <li><span class="presented-event">Electroacoustic Music Days 2025 — HELMCA</span><span class="presented-meta">Ioannina, Greece · 10 / 2025</span></li>
-                <li><span class="presented-event">SuonoDomenica</span><span class="presented-meta">Bologna, IT · 2025</span></li>
-              </ul>
-          </div>
-        </div>
-        <div class="exp-item pw-item">
-          <div><div class="exp-date">Video · 2024</div></div>
-          <div><div class="exp-title">BiangBiang24</div>
-              <ul class="presented-list">
-                <li><span class="presented-event">SuonoDomenica 2025</span><span class="presented-meta">2025</span></li>
               </ul>
           </div>
         </div>
@@ -465,13 +492,172 @@ This mismatch results in a loss of information, becoming a metaphor for the disc
   </div>
 
   <!-- Dati per il pannello di gestione (admin.html): non modificare a mano -->
-  <script type="application/json" id="site-data">{"general":{"name":"Giuseppe Di Bisceglie","subtitle":"Electroacoustic Composer · Musician","description":"Giuseppe Di Bisceglie — Electroacoustic Composer & Musician","homeImage":"images/2.jpg","footer":"© 2025 Giuseppe Di Bisceglie"},"bio":{"paragraphs":[{"text":"**Giuseppe Di Bisceglie** is an Electronic Music student at the *Conservatory Martini of Bologna*."},{"text":"Originally trained as a guitarist, exploring fingerstyle, fingerpicking, and harmony, he later expanded his musical language into electronic and electroacoustic composition."},{"text":"Active both in the studio and live, he blends digital and analog instruments in live electronics performances and electroacoustic improvisation, both solo and in collaboration with other musicians."},{"text":"He works daily with *Ableton Live*, *Max/MSP*, and *Reaper* for sound design and music production, with expertise in *Ambisonics* and multichannel composition."}],"images":[{"src":"images/1.jpg"},{"src":"images/13.jpg"},{"src":"images/15.png"}],"facts":[{"label":"Base","value":"Bologna, Italia","link":""},{"label":"Practice","value":"Sound art · Live electronics","link":""},{"label":"Tools","value":"Ableton Live · Max/MSP · Reaper","link":""},{"label":"CV","value":"Download CV ↗","link":"https://drive.google.com/file/d/1SyBPkz8ruXEt66gW55QVbeDiR-jndObN/view"}]},"music":[{"title":"Drosophila","year":"2025","synopsis":"Wingbeats at 240 Hz and other annoyinssssssssssssssssssg buzzes.","media":"https://drive.google.com/file/d/1VCbeDUuptTay6QUQzoZCt0JF-uviyv0R/view","presented":[{"event":"SuonoForma — Conservatory of Bologna","place":"Bologna, Italy","date":"17 / 01 / 2026","link":""}],"showPresented":true},{"title":"Madeleine","year":"2024","synopsis":"Madeleine intertwines heterogeneous acoustic materials, such as balloons, glockenspiel, and various toys, with evocative fragments of pop-rock tracks. The moments of clear recognizability of the sources, contrasted with electroacoustic reworkings of various kinds, aim to activate memory processes, allowing imagination to assemble a frosted mosaic of memories.","media":"https://drive.google.com/file/d/1XQcJ_wLapBJNywTtIxmLxweioG-P7e7a/view","presented":[{"event":"Electroacoustic Music Days 2025 — HELMCA","place":"Ioannina, Greece","date":"10 / 2025","link":""},{"event":"SuonoDomenica","place":"Bologna, IT","date":"2025","link":""}],"showPresented":true},{"title":"ImLovingIT","year":"2023","synopsis":"Debris, waste, and other bulky consumed materials.","media":"https://drive.google.com/file/d/1q91J0NyhFbRrD4DMg2zGq1Bk-6CwFhgi/view","presented":[],"showPresented":true}],"videos":[{"title":"Distortion of Lights","year":"2026","synopsis":"“Windows” is the term we use to describe specific interfaces through which we interact with our digital devices, such as smartphones and computers. We usually experience digital reality through these digital windows. In this video, however, we attempt to apply the same way of seeing to physical windows — windows that are not designed to frame or accommodate our usual way of looking.\nThis mismatch results in a loss of information, becoming a metaphor for the disconnect between our digital and physical lives.","media":"https://drive.google.com/file/d/1QIY469YPEwH4uGxxQ_RxQbBldEOEh2Ki/view","cover":"images/distortion-of-lights.jpg","collabName":"Anton Khlabov","collabUrl":"https://khlabov.site/?i=1","presented":[{"event":"Martini Elettrico 2026, Bologna ","place":"Bologna","date":"2026","link":""},{"event":"CYFEST 17","place":"Yerevan","date":"2026","link":""}],"showPresented":true},{"title":"Untitled","year":"2026","synopsis":"","media":"https://drive.google.com/file/d/1uoeTd0MLQ37Z6vo-nbLgd2vheeK9sYVB/view","cover":"images/untitled.jpg","collabName":"","collabUrl":"","presented":[],"showPresented":true},{"title":"BiangBiang24","year":"2024","synopsis":"An audiovisual collage born from amateur recordings made during a journey through China: food, everyday rituals and urban speed meet in a landscape of memory.","media":"https://drive.google.com/file/d/1c5LFqkvMYqndsO3ZE5oXPNXzt0d8zXMK/view","cover":"images/biangbiang24.jpg","collabName":"","collabUrl":"","presented":[{"event":"SuonoDomenica 2025","place":"","date":"2025","link":""}],"showPresented":true}],"experiences":[{"date":"15/08/2026","place":"Montreal, QB","title":"University of Montreal - study period","desc":"A one-month exchange programme at the University of Montreal, focusing on the exploration of AI applications in music using Max/MSP."},{"date":"22 / 03 / 2026","place":"Bologna, Italy","title":"Collective Electroacoustic Improvisation — AtelierSi","desc":"Collective electroacoustic improvisation session at AtelierSi, Bologna."},{"date":"17 / 01 / 2026","place":"Bologna, Italy","title":"SuonoForma — Conservatory of Bologna","desc":"Presentation of *Drosophila* at SuonoForma."},{"date":"10 / 2025","place":"Ioannina, Greece","title":"Electroacoustic Music Days 2025 — HELMCA","desc":"Presentation of *Madeleine* at the festival organized by the Hellenic Electroacoustic Music Composers Association."},{"date":"10 / 2025","place":"Yerevan, Armenia","title":"Antanèlee — HIGH FEST International","desc":"Sound artist and live music performer in the performance curated by Tsolak Mlke-Galstyan and MIHR Theatre."},{"date":"2025","place":"Yerevan, Armenia","title":"Études Lab #1 — Hosq","desc":"Collaboration on the creation of a theatrical performance, including composition and sound design for installations and live electronics."},{"date":"04 / 2025","place":"Bologna, Italy","title":"Motus — Acusmonium Workshop","desc":"Three-day workshop on performing with an acusmonium and more than 30 loudspeakers, culminating in a final concert."}],"contacts":{"email":"giuseppe.dibisceglie@hotmail.com","phone":"+39 391 736 8844","city":"Bologna, Italia","cv":"https://drive.google.com/file/d/1SyBPkz8ruXEt66gW55QVbeDiR-jndObN/view","instagram":"https://www.instagram.com/josef.lynn/","extraLinks":[]},"presentedWorks":{"show":true,"title":"Presented works"}}</script>
+  <script type="application/json" id="site-data">{"general":{"name":"Giuseppe Di Bisceglie","subtitle":"Electroacoustic Composer · Musician","description":"Giuseppe Di Bisceglie — Electroacoustic Composer & Musician","homeImage":"images/2.jpg","footer":"© 2025 Giuseppe Di Bisceglie"},"bio":{"paragraphs":[{"text":"**Giuseppe Di Bisceglie** is an Electronic Music student at the *Conservatory Martini of Bologna*."},{"text":"Originally trained as a guitarist, exploring fingerstyle, fingerpicking, and harmony, he later expanded his musical language into electronic and electroacoustic composition."},{"text":"Active both in the studio and live, he blends digital and analog instruments in live electronics performances and electroacoustic improvisation, both solo and in collaboration with other musicians."},{"text":"He works daily with *Ableton Live*, *Max/MSP*, and *Reaper* for sound design and music production, with expertise in *Ambisonics* and multichannel composition."}],"images":[{"src":"images/1.jpg"},{"src":"images/13.jpg"},{"src":"images/15.png"}],"facts":[{"label":"Base","value":"Bologna, Italia","link":""},{"label":"Practice","value":"Sound art · Live electronics","link":""},{"label":"Tools","value":"Ableton Live · Max/MSP · Reaper","link":""},{"label":"CV","value":"Download CV ↗","link":"https://drive.google.com/file/d/1SyBPkz8ruXEt66gW55QVbeDiR-jndObN/view"}]},"music":[{"title":"Drosophila","year":"2025","synopsis":"Wingbeats at 240 Hz and other annoyinssssssssssssssssssg buzzes.","media":"https://drive.google.com/file/d/1VCbeDUuptTay6QUQzoZCt0JF-uviyv0R/view","presented":[{"event":"SuonoForma — Conservatory of Bologna","place":"Bologna, Italy","date":"17 / 01 / 2026","link":""}],"showPresented":true},{"title":"Madeleine","year":"2024","synopsis":"Madeleine intertwines heterogeneous acoustic materials, such as balloons, glockenspiel, and various toys, with evocative fragments of pop-rock tracks. The moments of clear recognizability of the sources, contrasted with electroacoustic reworkings of various kinds, aim to activate memory processes, allowing imagination to assemble a frosted mosaic of memories.","media":"https://drive.google.com/file/d/1XQcJ_wLapBJNywTtIxmLxweioG-P7e7a/view","presented":[{"event":"Electroacoustic Music Days 2025 — HELMCA","place":"Ioannina, Greece","date":"10 / 2025","link":""}],"showPresented":true},{"title":"ImLovingIT","year":"2023","synopsis":"Debris, waste, and other bulky consumed materials.","media":"https://drive.google.com/file/d/1q91J0NyhFbRrD4DMg2zGq1Bk-6CwFhgi/view","presented":[],"showPresented":true}],"videos":[{"title":"Distortion of Lights","year":"2026","synopsis":"Synopsis coming soon.","media":"https://drive.google.com/file/d/1QIY469YPEwH4uGxxQ_RxQbBldEOEh2Ki/view","cover":"images/distortion-of-lights.jpg","collabName":"Anton Khlabov","collabUrl":"https://khlabov.site/?i=1","presented":[],"showPresented":true},{"title":"Untitled","year":"2026","synopsis":"Synopsis coming soon.","media":"https://drive.google.com/file/d/1uoeTd0MLQ37Z6vo-nbLgd2vheeK9sYVB/view","cover":"images/untitled.jpg","collabName":"","collabUrl":"","presented":[],"showPresented":true},{"title":"BiangBiang24","year":"2024","synopsis":"An audiovisual collage born from amateur recordings made during a journey through China: food, everyday rituals and urban speed meet in a landscape of memory.","media":"https://drive.google.com/file/d/1c5LFqkvMYqndsO3ZE5oXPNXzt0d8zXMK/view","cover":"images/biangbiang24.jpg","collabName":"","collabUrl":"","presented":[],"showPresented":true}],"experiences":[{"date":"22 / 03 / 2026","place":"Bologna, Italy","title":"Collective Electroacoustic Improvisation — AtelierSi","desc":"Collective electroacoustic improvisation session at AtelierSi, Bologna."},{"date":"17 / 01 / 2026","place":"Bologna, Italy","title":"SuonoForma — Conservatory of Bologna","desc":"Presentation of *Drosophila* at SuonoForma."},{"date":"10 / 2025","place":"Ioannina, Greece","title":"Electroacoustic Music Days 2025 — HELMCA","desc":"Presentation of *Madeleine* at the festival organized by the Hellenic Electroacoustic Music Composers Association."},{"date":"10 / 2025","place":"Yerevan, Armenia","title":"Antanèlee — HIGH FEST International","desc":"Sound artist and live music performer in the performance curated by Tsolak Mlke-Galstyan and MIHR Theatre."},{"date":"2025","place":"Yerevan, Armenia","title":"Études Lab #1 — Hosq","desc":"Collaboration on the creation of a theatrical performance, including composition and sound design for installations and live electronics."},{"date":"04 / 2025","place":"Bologna, Italy","title":"Motus — Acusmonium Workshop","desc":"Three-day workshop on performing with an acusmonium and more than 30 loudspeakers, culminating in a final concert."}],"contacts":{"email":"giuseppe.dibisceglie@hotmail.com","phone":"+39 391 736 8844","city":"Bologna, Italia","cv":"https://drive.google.com/file/d/1SyBPkz8ruXEt66gW55QVbeDiR-jndObN/view","instagram":"https://www.instagram.com/josef.lynn/","extraLinks":[]},"presentedWorks":{"show":true,"title":"Presented works"}}</script>
   <script>
     function goTo(name) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById('page-' + name).classList.add('active');
       document.getElementById('page-' + name).scrollTop = 0;
+      document.dispatchEvent(new CustomEvent('pagechange', { detail: name }));
     }
+
+    /* Player con forma d'onda */
+    (function initWaveforms() {
+      const PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5.5v13l11-6.5z" fill="currentColor"/></svg>';
+      const PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>';
+      const players = [];
+      let ctx = null, loaded = false;
+      const fmt = s => { if (!isFinite(s)) return '–:––'; s = Math.floor(s); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+
+      function bytes(src) {
+        if (src.startsWith('data:')) {
+          const bin = atob(src.slice(src.indexOf(',') + 1));
+          const u = new Uint8Array(bin.length);
+          for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+          return Promise.resolve(u.buffer);
+        }
+        return fetch(src).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); });
+      }
+      function peaksOf(buf) {
+        const N = 1200, len = buf.length, step = Math.max(1, Math.floor(len / N)), out = new Float32Array(N);
+        for (let c = 0; c < buf.numberOfChannels; c++) {
+          const d = buf.getChannelData(c);
+          for (let i = 0; i < N; i++) {
+            let m = 0; const s = i * step, e = Math.min(len, s + step);
+            for (let j = s; j < e; j += 4) { const v = Math.abs(d[j]); if (v > m) m = v; }
+            if (m > out[i]) out[i] = m;
+          }
+        }
+        let max = 0; out.forEach(v => { if (v > max) max = v; });
+        return Array.from(out, v => max ? Math.pow(v / max, .8) : 0);
+      }
+      function resample(peaks, n) {
+        if (!peaks) return new Array(n).fill(.08);
+        const out = [];
+        for (let i = 0; i < n; i++) {
+          const s = Math.floor(i * peaks.length / n), e = Math.max(s + 1, Math.floor((i + 1) * peaks.length / n));
+          let m = 0; for (let j = s; j < e; j++) if (peaks[j] > m) m = peaks[j];
+          out.push(m);
+        }
+        return out;
+      }
+
+      function setup(el) {
+        const audio = el.querySelector('audio'), btn = el.querySelector('.wf-play'), wave = el.querySelector('.wf-wave');
+        const canvas = wave.querySelector('canvas'), cur = el.querySelector('.wf-cur'), dur = el.querySelector('.wf-dur');
+        const title = el.dataset.title || '';
+        const p = { el, audio, peaks: null, hover: -1, dragging: false, raf: 0 };
+        const accent = (getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#d87945').trim();
+
+        function draw() {
+          const dpr = window.devicePixelRatio || 1, w = wave.clientWidth, h = wave.clientHeight;
+          if (!w || !h) return;
+          if (canvas.width !== Math.round(w * dpr)) canvas.width = Math.round(w * dpr);
+          if (canvas.height !== Math.round(h * dpr)) canvas.height = Math.round(h * dpr);
+          const g = canvas.getContext('2d');
+          g.setTransform(dpr, 0, 0, dpr, 0, 0);
+          g.clearRect(0, 0, w, h);
+          const bw = 3, gap = 2, n = Math.max(1, Math.floor((w + gap) / (bw + gap)));
+          const pk = resample(p.peaks, n);
+          const prog = audio.duration ? audio.currentTime / audio.duration : 0;
+          for (let i = 0; i < n; i++) {
+            const f = (i + .5) / n, bh = Math.max(3, pk[i] * h);
+            g.fillStyle = f <= prog ? accent : (p.hover >= 0 && f <= p.hover ? '#7d6b5f' : '#4a4540');
+            g.fillRect(i * (bw + gap), (h - bh) / 2, bw, bh);
+          }
+        }
+        function tick() { draw(); cur.textContent = fmt(audio.currentTime); if (!audio.paused) p.raf = requestAnimationFrame(tick); }
+        function setIcon() {
+          const playing = !audio.paused;
+          btn.innerHTML = playing ? PAUSE : PLAY;
+          btn.classList.toggle('is-playing', playing);
+          btn.setAttribute('aria-label', (playing ? 'Pause ' : 'Play ') + title);
+        }
+        function frac(e) { const r = wave.getBoundingClientRect(); return Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)); }
+        function seek(f) {
+          if (!audio.duration) { audio.addEventListener('loadedmetadata', () => seek(f), { once: true }); audio.load(); return; }
+          audio.currentTime = f * audio.duration; tick(); update();
+        }
+        function update() { wave.setAttribute('aria-valuenow', Math.round(audio.duration ? audio.currentTime / audio.duration * 100 : 0)); wave.setAttribute('aria-valuetext', fmt(audio.currentTime)); }
+
+        btn.addEventListener('click', () => {
+          if (audio.paused) { players.forEach(o => { if (o !== p) o.audio.pause(); }); audio.play().catch(() => {}); }
+          else audio.pause();
+        });
+        audio.addEventListener('play', () => { setIcon(); cancelAnimationFrame(p.raf); tick(); });
+        audio.addEventListener('pause', () => { setIcon(); cancelAnimationFrame(p.raf); draw(); });
+        audio.addEventListener('ended', () => { audio.currentTime = 0; setIcon(); draw(); cur.textContent = fmt(0); });
+        audio.addEventListener('loadedmetadata', () => { dur.textContent = fmt(audio.duration); draw(); });
+        audio.addEventListener('timeupdate', () => { update(); if (audio.paused) { cur.textContent = fmt(audio.currentTime); draw(); } });
+        wave.addEventListener('pointerdown', e => { p.dragging = true; wave.setPointerCapture(e.pointerId); seek(frac(e)); });
+        wave.addEventListener('pointermove', e => { p.hover = frac(e); if (p.dragging) seek(p.hover); else draw(); });
+        wave.addEventListener('pointerup', () => { p.dragging = false; });
+        wave.addEventListener('pointerleave', () => { p.hover = -1; draw(); });
+        wave.addEventListener('keydown', e => {
+          const d = audio.duration || 0; if (!d) return;
+          if (e.key === 'ArrowRight') audio.currentTime = Math.min(d, audio.currentTime + 5);
+          else if (e.key === 'ArrowLeft') audio.currentTime = Math.max(0, audio.currentTime - 5);
+          else if (e.key === 'Home') audio.currentTime = 0;
+          else if (e.key === 'End') audio.currentTime = d - .1;
+          else return;
+          e.preventDefault(); tick(); update();
+        });
+        if (window.ResizeObserver) new ResizeObserver(draw).observe(wave);
+        p.draw = draw;
+        p.load = () => {
+          bytes(audio.getAttribute('src'))
+            .then(buf => { ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); return new Promise((ok, ko) => ctx.decodeAudioData(buf, ok, ko)); })
+            .then(b => { p.peaks = peaksOf(b); draw(); })
+            .catch(() => {});
+        };
+        setIcon(); draw();
+        players.push(p);
+      }
+
+      function loadAll() { if (loaded) return; loaded = true; players.forEach(p => { p.draw(); p.load(); }); }
+      function start() {
+        document.querySelectorAll('.wf').forEach(setup);
+        if (document.getElementById('page-music')?.classList.contains('active')) loadAll();
+      }
+      document.addEventListener('pagechange', e => {
+        if (e.detail === 'music') { loadAll(); players.forEach(p => p.draw()); }
+        else players.forEach(p => p.audio.pause());
+      });
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+    })();
+
+    /* Sala video */
+    (function initVideoTheatre() {
+      function start() {
+        const vt = document.querySelector('.vt');
+        if (!vt) return;
+        const items = Array.from(vt.querySelectorAll('.vt-item'));
+        const picks = Array.from(vt.querySelectorAll('.vt-pick'));
+        let current = 0;
+        const onVideoPage = () => document.getElementById('page-video').classList.contains('active');
+        function frames() {
+          items.forEach((it, j) => {
+            const f = it.querySelector('iframe');
+            if (!f) return;
+            if (j === current && onVideoPage()) { if (f.getAttribute('src') !== f.dataset.src) f.setAttribute('src', f.dataset.src); }
+            else f.removeAttribute('src');
+          });
+        }
+        function show(i) {
+          current = i;
+          items.forEach((it, j) => { it.hidden = j !== i; });
+          picks.forEach((b, j) => { b.classList.toggle('active', j === i); b.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
+          frames();
+        }
+        picks.forEach((b, i) => b.addEventListener('click', () => {
+          show(i);
+          if (window.matchMedia('(max-width: 700px)').matches) vt.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }));
+        document.addEventListener('pagechange', frames);
+        show(Math.min(items.length - 1, parseInt(vt.dataset.start, 10) || 0));
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+    })();
     (function initBioCarousel() {
       function start() {
         const carousel = document.querySelector('.bio-carousel');
