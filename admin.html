@@ -47,6 +47,13 @@
   button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .hint { font-size: .78rem; color: var(--muted); }
   .hint.ok { color: var(--ok); } .hint.warn { color: var(--warn); }
+  .check { display: flex; align-items: center; gap: 9px; cursor: pointer; font-size: .9rem; }
+  .check input { width: 17px; height: 17px; accent-color: var(--accent); }
+  .sub { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 4px; }
+  .compact { gap: 10px; margin-top: 6px; }
+  .compact .item { background: var(--bg); padding: 12px 14px 14px; }
+  .compact .item-head { margin-bottom: 10px; }
+  .compact .item-title { font-size: .92rem; }
   .list { display: flex; flex-direction: column; gap: 14px; }
   .item { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px 18px; }
   .item-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
@@ -119,14 +126,16 @@ const DEFAULT_DATA = {
     ]
   },
   music: [
-    { title: 'Drosophila', year: '2025', synopsis: 'Wingbeats at 240 Hz and other annoyinssssssssssssssssssg buzzes.', media: 'https://drive.google.com/file/d/1VCbeDUuptTay6QUQzoZCt0JF-uviyv0R/view' },
-    { title: 'Madeleine', year: '2024', synopsis: 'Madeleine intertwines heterogeneous acoustic materials, such as balloons, glockenspiel, and various toys, with evocative fragments of pop-rock tracks. The moments of clear recognizability of the sources, contrasted with electroacoustic reworkings of various kinds, aim to activate memory processes, allowing imagination to assemble a frosted mosaic of memories.', media: 'https://drive.google.com/file/d/1XQcJ_wLapBJNywTtIxmLxweioG-P7e7a/view' },
-    { title: 'ImLovingIT', year: '2023', synopsis: 'Debris, waste, and other bulky consumed materials.', media: 'https://drive.google.com/file/d/1q91J0NyhFbRrD4DMg2zGq1Bk-6CwFhgi/view' }
+    { title: 'Drosophila', year: '2025', synopsis: 'Wingbeats at 240 Hz and other annoyinssssssssssssssssssg buzzes.', media: 'https://drive.google.com/file/d/1VCbeDUuptTay6QUQzoZCt0JF-uviyv0R/view', showPresented: true,
+      presented: [ { event: 'SuonoForma — Conservatory of Bologna', place: 'Bologna, Italy', date: '17 / 01 / 2026', link: '' } ] },
+    { title: 'Madeleine', year: '2024', synopsis: 'Madeleine intertwines heterogeneous acoustic materials, such as balloons, glockenspiel, and various toys, with evocative fragments of pop-rock tracks. The moments of clear recognizability of the sources, contrasted with electroacoustic reworkings of various kinds, aim to activate memory processes, allowing imagination to assemble a frosted mosaic of memories.', media: 'https://drive.google.com/file/d/1XQcJ_wLapBJNywTtIxmLxweioG-P7e7a/view', showPresented: true,
+      presented: [ { event: 'Electroacoustic Music Days 2025 — HELMCA', place: 'Ioannina, Greece', date: '10 / 2025', link: '' } ] },
+    { title: 'ImLovingIT', year: '2023', synopsis: 'Debris, waste, and other bulky consumed materials.', media: 'https://drive.google.com/file/d/1q91J0NyhFbRrD4DMg2zGq1Bk-6CwFhgi/view', showPresented: true, presented: [] }
   ],
   videos: [
-    { title: 'Distortion of Lights', year: '2026', synopsis: 'Synopsis coming soon.', media: 'https://drive.google.com/file/d/1QIY469YPEwH4uGxxQ_RxQbBldEOEh2Ki/view', cover: 'images/distortion-of-lights.jpg', collabName: 'Anton Khlabov', collabUrl: 'https://khlabov.site/?i=1' },
-    { title: 'Untitled', year: '2026', synopsis: 'Synopsis coming soon.', media: 'https://drive.google.com/file/d/1uoeTd0MLQ37Z6vo-nbLgd2vheeK9sYVB/view', cover: 'images/untitled.jpg', collabName: '', collabUrl: '' },
-    { title: 'BiangBiang24', year: '2024', synopsis: 'An audiovisual collage born from amateur recordings made during a journey through China: food, everyday rituals and urban speed meet in a landscape of memory.', media: 'https://drive.google.com/file/d/1c5LFqkvMYqndsO3ZE5oXPNXzt0d8zXMK/view', cover: 'images/biangbiang24.jpg', collabName: '', collabUrl: '' }
+    { title: 'Distortion of Lights', year: '2026', synopsis: 'Synopsis coming soon.', media: 'https://drive.google.com/file/d/1QIY469YPEwH4uGxxQ_RxQbBldEOEh2Ki/view', cover: 'images/distortion-of-lights.jpg', collabName: 'Anton Khlabov', collabUrl: 'https://khlabov.site/?i=1', showPresented: true, presented: [] },
+    { title: 'Untitled', year: '2026', synopsis: 'Synopsis coming soon.', media: 'https://drive.google.com/file/d/1uoeTd0MLQ37Z6vo-nbLgd2vheeK9sYVB/view', cover: 'images/untitled.jpg', collabName: '', collabUrl: '', showPresented: true, presented: [] },
+    { title: 'BiangBiang24', year: '2024', synopsis: 'An audiovisual collage born from amateur recordings made during a journey through China: food, everyday rituals and urban speed meet in a landscape of memory.', media: 'https://drive.google.com/file/d/1c5LFqkvMYqndsO3ZE5oXPNXzt0d8zXMK/view', cover: 'images/biangbiang24.jpg', collabName: '', collabUrl: '', showPresented: true, presented: [] }
   ],
   experiences: [
     { date: '22 / 03 / 2026', place: 'Bologna, Italy', title: 'Collective Electroacoustic Improvisation — AtelierSi', desc: 'Collective electroacoustic improvisation session at AtelierSi, Bologna.' },
@@ -136,6 +145,7 @@ const DEFAULT_DATA = {
     { date: '2025', place: 'Yerevan, Armenia', title: 'Études Lab #1 — Hosq', desc: 'Collaboration on the creation of a theatrical performance, including composition and sound design for installations and live electronics.' },
     { date: '04 / 2025', place: 'Bologna, Italy', title: 'Motus — Acusmonium Workshop', desc: 'Three-day workshop on performing with an acusmonium and more than 30 loudspeakers, culminating in a final concert.' }
   ],
+  presentedWorks: { show: true, title: 'Presented works' },
   contacts: {
     email: 'giuseppe.dibisceglie@hotmail.ai',
     phone: '+39 391 736 8844',
@@ -231,6 +241,17 @@ const SITE_CSS = `
     .exp-place { color: var(--muted); font-size: .72rem; margin-top: 2px; }
     .exp-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.08rem; font-weight: 600; letter-spacing: -.025em; margin-bottom: 3px; }
     .exp-desc { color: var(--muted); font-size: .78rem; line-height: 1.45; }
+    .presented { margin: 12px 0 14px; }
+    .presented-label { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .presented-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .presented-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; padding-left: 14px; position: relative; font-size: .9rem; line-height: 1.4; }
+    .presented-list li::before { content: ''; position: absolute; left: 0; top: .55em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+    .presented-event { color: var(--ink); }
+    a.presented-event { text-decoration: none; border-bottom: 1px solid rgba(216,121,69,.5); }
+    a.presented-event:hover { color: var(--accent); }
+    .presented-meta { color: var(--muted); font-size: .8rem; }
+    .exp-section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; letter-spacing: -.05em; line-height: 1; margin: 80px 0 8px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+    .pw-item .presented-list { margin-top: 8px; }
     .contacts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px 80px; margin-bottom: 60px; }
     .contact-block h3 { color: var(--accent); margin-bottom: 10px; text-transform: uppercase; font-size: .72rem; letter-spacing: .18em; font-weight: 600; }
     .contact-block a { color: var(--ink); text-decoration: none; font-size: 1.15rem; display: block; }
@@ -319,6 +340,26 @@ function media(url) {
 }
 
 /* ───────────── GENERAZIONE DEL SITO ───────────── */
+function presentedList(item) {
+  const rows = (item.presented || []).filter(p => has(p.event) || has(p.place));
+  if (!rows.length) return '';
+  return `<ul class="presented-list">
+${rows.map(p => {
+    const ev = has(p.link) ? `<a class="presented-event" href="${esc(p.link)}" target="_blank" rel="noreferrer">${esc(p.event)}</a>` : `<span class="presented-event">${esc(p.event)}</span>`;
+    const meta = [p.place, p.date].filter(has).map(esc).join(' · ');
+    return `                <li>${has(p.event) ? ev : ''}${meta ? `<span class="presented-meta">${meta}</span>` : ''}</li>`;
+  }).join('\n')}
+              </ul>`;
+}
+function presentedBlock(item) {
+  if (item.showPresented === false) return '';
+  const list = presentedList(item);
+  return list ? `<div class="presented">
+              <div class="presented-label">Presented</div>
+              ${list}
+            </div>` : '';
+}
+
 function buildSite(d) {
   const g = d.general, b = d.bio, c = d.contacts;
   const name = esc(g.name);
@@ -352,6 +393,7 @@ ${imgs.map((_, i) => `            <button class="bio-carousel-dot${i === 0 ? ' a
               <summary>Synopsis</summary>
               <div class="track-accordion-body">${rich(t.synopsis)}</div>
             </details>` : ''}
+            ${presentedBlock(t)}
             ${m ? `<iframe class="audio-frame" src="${esc(m.embed)}" title="${esc(t.title)} audio player" allow="autoplay"></iframe>` : ''}
           </div>
         </div>`;
@@ -378,6 +420,7 @@ ${imgs.map((_, i) => `            <button class="bio-carousel-dot${i === 0 ? ' a
               <summary>Synopsis</summary>
               <div class="video-accordion-body">${rich(v.synopsis)}</div>
             </details>` : ''}
+            ${presentedBlock(v)}
             ${has(v.collabName) ? (has(v.collabUrl)
               ? `<a class="collaborator-link" href="${esc(v.collabUrl)}" target="_blank" rel="noreferrer">In collaboration with ${esc(v.collabName)} ↗</a>`
               : `<span class="collaborator-link">In collaboration with ${esc(v.collabName)}</span>`) : ''}
@@ -390,6 +433,23 @@ ${imgs.map((_, i) => `            <button class="bio-carousel-dot${i === 0 ? ' a
           <div><div class="exp-date">${esc(e.date)}</div><div class="exp-place">${esc(e.place)}</div></div>
           <div><div class="exp-title">${esc(e.title)}</div>${has(e.desc) ? `<div class="exp-desc">${rich(e.desc)}</div>` : ''}</div>
         </div>`).join('\n');
+
+  const pwConf = d.presentedWorks || {};
+  const works = [
+    ...d.music.map(w => ({ w, kind: 'Music' })),
+    ...d.videos.map(w => ({ w, kind: 'Video' }))
+  ].filter(x => presentedList(x.w))
+   .sort((a, b) => (parseInt(b.w.year) || 0) - (parseInt(a.w.year) || 0));
+  const presentedWorks = (pwConf.show !== false && works.length) ? `
+      <h2 class="exp-section-title">${esc(pwConf.title || 'Presented works')}</h2>
+      <div class="exp-list">
+${works.map(({ w, kind }) => `        <div class="exp-item pw-item">
+          <div><div class="exp-date">${kind}${has(w.year) ? ' · ' + esc(w.year) : ''}</div></div>
+          <div><div class="exp-title">${esc(w.title)}</div>
+              ${presentedList(w)}
+          </div>
+        </div>`).join('\n')}
+      </div>` : '';
 
   const blocks = [];
   if (has(c.email)) blocks.push(`<div class="contact-block"><h3>Email</h3><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></div>`);
@@ -492,7 +552,7 @@ ${videos}
       <h1 class="page-title">Experiences</h1>
       <div class="exp-list">
 ${exps}
-      </div>
+      </div>${presentedWorks}
     </div>
     ${footer}
   </div>
@@ -538,6 +598,16 @@ function normalize(d) {
     contacts: Object.assign(base.contacts, d.contacts || {})
   };
   if (!Array.isArray(out.contacts.extraLinks)) out.contacts.extraLinks = [];
+  out.presentedWorks = Object.assign({ show: true, title: 'Presented works' }, d.presentedWorks || {});
+  [['music', base.music], ['videos', base.videos]].forEach(([k, defs]) => {
+    out[k].forEach(w => {
+      if (!Array.isArray(w.presented)) {
+        const match = defs.find(x => x.title === w.title);
+        w.presented = match ? clone(match.presented) : [];
+      }
+      if (typeof w.showPresented !== 'boolean') w.showPresented = true;
+    });
+  });
   return out;
 }
 
@@ -570,6 +640,22 @@ function el(tag, cls, text) {
 }
 
 function field(f, obj, after) {
+  if (f.t === 'check') {
+    const w = el('label', 'check wide');
+    const inp = document.createElement('input');
+    inp.type = 'checkbox'; inp.checked = obj[f.k] !== false;
+    inp.addEventListener('change', () => { obj[f.k] = inp.checked; save(); after && after(); });
+    w.append(inp, el('span', null, f.l));
+    return w;
+  }
+  if (f.t === 'list') {
+    const w = el('div', 'field wide sub');
+    w.append(el('span', 'lab', f.l));
+    if (f.hint) w.append(el('span', 'hint', f.hint));
+    if (!Array.isArray(obj[f.k])) obj[f.k] = [];
+    w.append(listEditor(obj[f.k], f.schema));
+    return w;
+  }
   const w = el('label', 'field' + (f.wide || f.t === 'area' ? ' wide' : ''));
   w.append(el('span', 'lab', f.l));
   const inp = document.createElement(f.t === 'area' ? 'textarea' : 'input');
@@ -607,13 +693,14 @@ function iconBtn(sym, label, fn, disabled) {
 function listEditor(arr, schema) {
   const wrap = el('div', 'list');
   const titleOf = it => (schema.titleKey && has(it[schema.titleKey])) ? it[schema.titleKey] : schema.untitled || 'Senza titolo';
+  if (schema.compact) wrap.classList.add('compact');
 
   const draw = focusIndex => {
     wrap.innerHTML = '';
     const addBtn = el('button', 'add', '+ ' + schema.addLabel);
     addBtn.type = 'button';
     addBtn.onclick = () => {
-      const blank = {}; schema.fields.forEach(f => blank[f.k] = '');
+      const blank = {}; schema.fields.forEach(f => blank[f.k] = f.t === 'check' ? true : f.t === 'list' ? [] : '');
       if (schema.addTop) { arr.unshift(blank); draw(0); } else { arr.push(blank); draw(arr.length - 1); }
       save();
     };
@@ -636,7 +723,7 @@ function listEditor(arr, schema) {
       schema.fields.forEach(f => g.append(field(f, item, () => t.textContent = titleOf(item))));
       card.append(g);
       wrap.append(card);
-      if (i === focusIndex) setTimeout(() => { card.scrollIntoView({ block: 'center' }); card.querySelector('input,textarea').focus(); }, 0);
+      if (i === focusIndex) setTimeout(() => { card.scrollIntoView({ block: 'center' }); card.querySelector('input[type=text],textarea').focus(); }, 0);
     });
     if (!schema.addTop) wrap.append(addBtn);
   };
@@ -645,6 +732,14 @@ function listEditor(arr, schema) {
 }
 
 /* ───────────── SEZIONI ───────────── */
+const PRESENTED_FIELDS = [
+  { k: 'showPresented', l: 'Mostra “Presented” su questo lavoro', t: 'check' },
+  { k: 'presented', l: 'Presented', t: 'list', hint: 'Dove è stato presentato. Compare anche nella pagina Experiences.',
+    schema: { addLabel: 'Aggiungi luogo', titleKey: 'event', untitled: 'Nuovo luogo', compact: true,
+      fields: [{ k: 'event', l: 'Evento o festival', ph: 'SuonoForma — Conservatory of Bologna', wide: true },
+               { k: 'place', l: 'Città', ph: 'Bologna, Italy' }, { k: 'date', l: 'Data', ph: '17 / 01 / 2026' },
+               { k: 'link', l: 'Link (facoltativo)', ph: 'https://…', wide: true }] } }
+];
 const RICH_HINT = 'Usa *testo* per evidenziarlo in arancione e **testo** per il grassetto.';
 const MEDIA_HINT = 'Incolla il link di condivisione di Google Drive, YouTube o Vimeo.';
 
@@ -677,7 +772,8 @@ const TABS = [
     p.append(listEditor(state.music, { addLabel: 'Aggiungi brano', titleKey: 'title', addTop: true,
       fields: [{ k: 'title', l: 'Titolo' }, { k: 'year', l: 'Anno' },
                { k: 'media', l: 'Link audio', media: true, hint: MEDIA_HINT, wide: true },
-               { k: 'synopsis', l: 'Sinossi', t: 'area', hint: RICH_HINT }] }));
+               { k: 'synopsis', l: 'Sinossi', t: 'area', hint: RICH_HINT },
+               ...PRESENTED_FIELDS] }));
   }},
   { id: 'videos', label: 'Video', count: () => state.videos.length, render: p => {
     p.append(el('h2', null, 'Video'), el('p', 'lead', 'I video appaiono nell’ordine di questa lista. I nuovi vengono aggiunti in cima.'));
@@ -687,7 +783,8 @@ const TABS = [
                { k: 'cover', l: 'Copertina per smartphone', ph: 'images/nome-video.jpg', hint: 'Immagine mostrata su mobile al posto del player. Facoltativa.', wide: true },
                { k: 'synopsis', l: 'Sinossi', t: 'area', hint: RICH_HINT },
                { k: 'collabName', l: 'Collaborazione con (facoltativo)', ph: 'Nome e cognome' },
-               { k: 'collabUrl', l: 'Link del collaboratore', ph: 'https://…' }] }));
+               { k: 'collabUrl', l: 'Link del collaboratore', ph: 'https://…' },
+               ...PRESENTED_FIELDS] }));
   }},
   { id: 'experiences', label: 'Esperienze', count: () => state.experiences.length, render: p => {
     p.append(el('h2', null, 'Esperienze'), el('p', 'lead', 'Concerti, festival, workshop. I nuovi vengono aggiunti in cima.'));
@@ -695,6 +792,14 @@ const TABS = [
       fields: [{ k: 'date', l: 'Data', ph: '22 / 03 / 2026' }, { k: 'place', l: 'Luogo', ph: 'Bologna, Italy' },
                { k: 'title', l: 'Titolo', wide: true },
                { k: 'desc', l: 'Descrizione', t: 'area', rows: 2, hint: RICH_HINT }] }));
+    p.append(el('h3', null, 'Lavori presentati'));
+    p.append(el('p', 'hint', 'Questa sezione si compila da sola con i luoghi inseriti in “Presented” nei brani e nei video, ordinati per anno.'));
+    const g = objEditor(state.presentedWorks, [
+      { k: 'show', l: 'Mostra la sezione nella pagina Experiences', t: 'check' },
+      { k: 'title', l: 'Titolo della sezione' }
+    ]);
+    g.style.marginTop = '12px';
+    p.append(g);
   }},
   { id: 'contacts', label: 'Contatti', render: p => {
     p.append(el('h2', null, 'Contatti'), el('p', 'lead', 'I campi lasciati vuoti non vengono mostrati sul sito.'));
