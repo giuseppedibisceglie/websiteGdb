@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gestione sito — Giuseppe Di Bisceglie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f4f2ef; --surface: #ffffff; --ink: #1d1b19; --muted: #6f6861;
+    --line: #e2ddd6; --accent: #b85d2c; --accent-soft: #f6e6dc; --ok: #3d7a4f; --warn: #a3621a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --bg: #151515; --surface: #1c1a18; --ink: #f2eee8; --muted: #aaa39a;
+      --line: #2e2c2a; --accent: #d87945; --accent-soft: #2c211a; --ok: #7cc28f; --warn: #e5a660;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.5; }
+  button, input, textarea { font: inherit; color: inherit; }
+  .app { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; }
+  aside { border-right: 1px solid var(--line); padding: 28px 18px; position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 4px; }
+  aside h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; letter-spacing: -.03em; margin: 0 8px 22px; line-height: 1.15; }
+  aside h1 small { display: block; font-family: 'DM Sans', sans-serif; font-weight: 400; font-size: .8rem; color: var(--muted); letter-spacing: 0; margin-top: 4px; }
+  .tab { text-align: left; background: none; border: 0; padding: 9px 10px; border-radius: 6px; cursor: pointer; color: var(--muted); display: flex; justify-content: space-between; }
+  .tab:hover { color: var(--ink); background: var(--accent-soft); }
+  .tab.on { color: var(--ink); background: var(--accent-soft); font-weight: 600; }
+  .tab .count { font-size: .8rem; color: var(--muted); font-weight: 400; }
+  .status { margin-top: auto; font-size: .8rem; color: var(--muted); padding: 8px; }
+  main { padding: 36px 48px 80px; max-width: 920px; width: 100%; }
+  .panel { display: none; }
+  .panel.on { display: block; }
+  .panel > h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; letter-spacing: -.05em; margin: 0 0 6px; }
+  .panel > p.lead { color: var(--muted); margin: 0 0 28px; max-width: 60ch; }
+  h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; margin: 34px 0 12px; letter-spacing: -.02em; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field.wide { grid-column: 1 / -1; }
+  .lab { font-size: .82rem; font-weight: 600; }
+  input[type=text], textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+  textarea { resize: vertical; min-height: 70px; }
+  input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: transparent; }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .hint { font-size: .78rem; color: var(--muted); }
+  .hint.ok { color: var(--ok); } .hint.warn { color: var(--warn); }
+  .list { display: flex; flex-direction: column; gap: 14px; }
+  .item { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px 18px; }
+  .item-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .item-n { font-size: .78rem; color: var(--accent); font-weight: 600; min-width: 22px; }
+  .item-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .item-actions { display: flex; gap: 4px; }
+  .icon { width: 30px; height: 30px; border: 1px solid var(--line); background: none; border-radius: 6px; cursor: pointer; color: var(--muted); }
+  .icon:hover:not(:disabled) { color: var(--accent); border-color: var(--accent); }
+  .icon:disabled { opacity: .3; cursor: default; }
+  .add { align-self: flex-start; background: none; border: 1px dashed var(--accent); color: var(--accent); padding: 9px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+  .add:hover { background: var(--accent-soft); }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+  .btn { padding: 10px 18px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-weight: 600; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { filter: brightness(1.08); color: #fff; }
+  .btn.danger:hover { border-color: #c0392b; color: #c0392b; }
+  .note { background: var(--accent-soft); border-radius: 8px; padding: 14px 16px; font-size: .9rem; margin: 0 0 22px; max-width: 70ch; }
+  .note b { font-weight: 600; }
+  .preview { width: 100%; height: 72vh; border: 1px solid var(--line); border-radius: 8px; background: #151515; }
+  code { background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; font-size: .88em; }
+  .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 6px; opacity: 0; transition: .25s; pointer-events: none; font-size: .9rem; }
+  .toast.show { opacity: 1; transform: translateX(-50%); }
+  @media (max-width: 760px) {
+    .app { grid-template-columns: 1fr; }
+    aside { position: sticky; height: auto; flex-direction: row; overflow-x: auto; padding: 10px; border-right: 0; border-bottom: 1px solid var(--line); background: var(--bg); z-index: 5; }
+    aside h1, .status { display: none; }
+    .tab { white-space: nowrap; }
+    .tab .count { display: none; }
+    main { padding: 24px 18px 60px; }
+    .fields { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside id="tabs">
+    <h1>Gestione sito<small>Giuseppe Di Bisceglie</small></h1>
+    <div class="status" id="status">Modifiche salvate in questo browser</div>
+  </aside>
+  <main id="main"></main>
+</div>
+<div class="toast" id="toast"></div>
+<input type="file" id="importFile" accept=".json,.html,.htm" hidden />
+
+<script>
+/* ───────────── DATI ORIGINALI DEL SITO ───────────── */
+const DEFAULT_DATA = {
+  general: {
+    name: 'Giuseppe Di Bisceglie',
+    subtitle: 'Electroacoustic Composer · Musician',
+    description: 'Giuseppe Di Bisceglie — Electroacoustic Composer & Musician',
+    homeImage: 'images/2.jpg',
+    footer: '© 2025 Giuseppe Di Bisceglie'
+  },
+  bio: {
+    paragraphs: [
+      { text: '**Giuseppe Di Bisceglie** is an Electronic Music student at the *Conservatory Martini of Bologna*.' },
+      { text: 'Originally trained as a guitarist, exploring fingerstyle, fingerpicking, and harmony, he later expanded his musical language into electronic and electroacoustic composition.' },
+      { text: 'Active both in the studio and live, he blends digital and analog instruments in live electronics performances and electroacoustic improvisation, both solo and in collaboration with other musicians.' },
+      { text: 'He works daily with *Ableton Live*, *Max/MSP*, and *Reaper* for sound design and music production, with expertise in *Ambisonics* and multichannel composition.' }
+    ],
+    images: [ { src: 'images/1.jpg' }, { src: 'images/13.jpg' }, { src: 'images/15.png' } ],
+    facts: [
+      { label: 'Base', value: 'Bologna, Italia', link: '' },
+      { label: 'Practice', value: 'Sound art · Live electronics', link: '' },
+      { label: 'Tools', value: 'Ableton Live · Max/MSP · Reaper', link: '' },
+      { label: 'CV', value: 'Download CV ↗', link: 'https://drive.google.com/file/d/1SyBPkz8ruXEt66gW55QVbeDiR-jndObN/view' }
+    ]
+  },
+  music: [
+    { title: 'Drosophila', year: '2025', synopsis: 'Wingbeats at 240 Hz and other annoyinssssssssssssssssssg buzzes.', media: 'https://drive.google.com/file/d/1VCbeDUuptTay6QUQzoZCt0JF-uviyv0R/view' },
+    { title: 'Madeleine', year: '2024', synopsis: 'Madeleine intertwines heterogeneous acoustic materials, such as balloons, glockenspiel, and various toys, with evocative fragments of pop-rock tracks. The moments of clear recognizability of the sources, contrasted with electroacoustic reworkings of various kinds, aim to activate memory processes, allowing imagination to assemble a frosted mosaic of memories.', media: 'https://drive.google.com/file/d/1XQcJ_wLapBJNywTtIxmLxweioG-P7e7a/view' },
+    { title: 'ImLovingIT', year: '2023', synopsis: 'Debris, waste, and other bulky consumed materials.', media: 'https://drive.google.com/file/d/1q91J0NyhFbRrD4DMg2zGq1Bk-6CwFhgi/view' }
+  ],
+  videos: [
+    { title: 'Distortion of Lights', year: '2026', synopsis: 'Synopsis coming soon.', media: 'https://drive.google.com/file/d/1QIY469YPEwH4uGxxQ_RxQbBldEOEh2Ki/view', cover: 'images/distortion-of-lights.jpg', collabName: 'Anton Khlabov', collabUrl: 'https://khlabov.site/?i=1' },
+    { title: 'Untitled', year: '2026', synopsis: 'Synopsis coming soon.', media: 'https://drive.google.com/file/d/1uoeTd0MLQ37Z6vo-nbLgd2vheeK9sYVB/view', cover: 'images/untitled.jpg', collabName: '', collabUrl: '' },
+    { title: 'BiangBiang24', year: '2024', synopsis: 'An audiovisual collage born from amateur recordings made during a journey through China: food, everyday rituals and urban speed meet in a landscape of memory.', media: 'https://drive.google.com/file/d/1c5LFqkvMYqndsO3ZE5oXPNXzt0d8zXMK/view', cover: 'images/biangbiang24.jpg', collabName: '', collabUrl: '' }
+  ],
+  experiences: [
+    { date: '22 / 03 / 2026', place: 'Bologna, Italy', title: 'Collective Electroacoustic Improvisation — AtelierSi', desc: 'Collective electroacoustic improvisation session at AtelierSi, Bologna.' },
+    { date: '17 / 01 / 2026', place: 'Bologna, Italy', title: 'SuonoForma — Conservatory of Bologna', desc: 'Presentation of *Drosophila* at SuonoForma.' },
+    { date: '10 / 2025', place: 'Ioannina, Greece', title: 'Electroacoustic Music Days 2025 — HELMCA', desc: 'Presentation of *Madeleine* at the festival organized by the Hellenic Electroacoustic Music Composers Association.' },
+    { date: '10 / 2025', place: 'Yerevan, Armenia', title: 'Antanèlee — HIGH FEST International', desc: 'Sound artist and live music performer in the performance curated by Tsolak Mlke-Galstyan and MIHR Theatre.' },
+    { date: '2025', place: 'Yerevan, Armenia', title: 'Études Lab #1 — Hosq', desc: 'Collaboration on the creation of a theatrical performance, including composition and sound design for installations and live electronics.' },
+    { date: '04 / 2025', place: 'Bologna, Italy', title: 'Motus — Acusmonium Workshop', desc: 'Three-day workshop on performing with an acusmonium and more than 30 loudspeakers, culminating in a final concert.' }
+  ],
+  contacts: {
+    email: 'giuseppe.dibisceglie@hotmail.ai',
+    phone: '+39 391 736 8844',
+    city: 'Bologna, Italia',
+    cv: 'https://drive.google.com/file/d/1SyBPkz8ruXEt66gW55QVbeDiR-jndObN/view',
+    instagram: 'https://www.instagram.com/josef.lynn/',
+    extraLinks: []
+  }
+};
+
+/* ───────────── CSS E SCRIPT DEL SITO (invariati) ───────────── */
+const SITE_CSS = `
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    :root { --ink: #f2eee8; --muted: #aaa39a; --paper: #151515; --line: #2e2c2a; --accent: #d87945; --accent-light: #f0a273; --panel: #1c1a18; --max: 1100px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body { font-family: 'DM Sans', Arial, sans-serif; background: var(--paper); color: var(--ink); line-height: 1.65; }
+    .page { position: fixed; inset: 0; overflow-y: auto; opacity: 0; pointer-events: none; transition: opacity .45s ease; display: flex; flex-direction: column; }
+    .page.active { opacity: 1; pointer-events: all; }
+    .topbar { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 28px 48px; position: fixed; top: 0; left: 0; z-index: 100; background: linear-gradient(to bottom, rgba(21,21,21,.96), rgba(21,21,21,0)); }
+    .home-btn { font-family: 'Space Grotesk', sans-serif; font-size: .75rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--ink); background: none; border: 1px solid var(--line); padding: 8px 18px; cursor: pointer; transition: border-color .2s, color .2s; }
+    .home-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .topbar-label { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+    #page-home { justify-content: flex-end; align-items: center; }
+    .home-bg { position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, rgba(216,121,69,.18), transparent 40%), radial-gradient(circle at 20% 80%, rgba(216,121,69,.08), transparent 35%), #151515; z-index: 0; }
+    .home-photo-placeholder { position: absolute; inset: 0; z-index: 1; }
+    .home-bottom { position: relative; z-index: 2; width: 100%; padding: 0 48px 52px; display: flex; flex-direction: column; align-items: center; }
+    .home-name { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.8rem, 7.5vw, 7.2rem); font-weight: 700; letter-spacing: -.07em; white-space: nowrap; line-height: 1; text-align: center; width: 100%; }
+    .home-sub { font-size: .78rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-top: 12px; margin-bottom: 36px; text-align: center; }
+    .home-nav { width: min(100%, 850px); display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .home-nav button { position: relative; font-family: 'Space Grotesk', sans-serif; font-size: .72rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; background: none; border: 0; color: var(--muted); padding: 10px 2px; cursor: pointer; transition: color .2s ease; }
+    .home-nav button::after { content: ''; position: absolute; left: 0; right: 0; bottom: 2px; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: center; transition: transform .2s ease; }
+    .home-nav button:hover, .home-nav button:focus-visible { color: var(--accent); }
+    .home-nav button:hover::after, .home-nav button:focus-visible::after { transform: scaleX(1); }
+    .inner-page { padding: 110px 48px 80px; max-width: var(--max); width: 100%; margin: 0 auto; flex: 1; }
+    .page-eyebrow { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .page-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(3.2rem, 8vw, 7rem); font-weight: 700; letter-spacing: -.07em; line-height: .94; margin-bottom: 56px; border-bottom: 1px solid var(--line); padding-bottom: 32px; }
+    .bio-grid { display: grid; grid-template-columns: 320px 1fr; gap: 64px; align-items: start; }
+    .bio-carousel { position: relative; width: 100%; aspect-ratio: 3 / 4; overflow: hidden; background: var(--panel); }
+    .bio-carousel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 1.2s ease; }
+    .bio-carousel img.active { opacity: 1; }
+    .bio-carousel-dots { position: absolute; left: 50%; bottom: 14px; z-index: 2; display: flex; gap: 7px; transform: translateX(-50%); }
+    .bio-carousel-dot { width: 7px; height: 7px; padding: 0; border: 1px solid var(--ink); border-radius: 50%; background: transparent; opacity: .75; cursor: pointer; }
+    .bio-carousel-dot.active { background: var(--accent); border-color: var(--accent); opacity: 1; }
+    .bio-text p { margin-bottom: 18px; font-size: 1.05rem; color: var(--ink); }
+    .bio-text em { color: var(--accent-light); font-style: normal; }
+    .bio-text strong { color: var(--ink); }
+    .bio-facts { margin-top: 32px; border-top: 1px solid var(--line); }
+    .fact { display: flex; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); padding: 13px 0; font-size: .9rem; }
+    .fact span:first-child { color: var(--muted); }
+    .fact a { color: var(--accent); text-decoration: none; }
+    .fact a:hover { text-decoration: underline; }
+    .track-list { display: flex; flex-direction: column; }
+    .track { display: block; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .track-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 600; letter-spacing: -.04em; line-height: 1; margin-bottom: 6px; }
+    .track-year { color: var(--accent); font-size: .82rem; letter-spacing: .12em; margin-bottom: 10px; }
+    .track-desc { color: var(--muted); font-size: .95rem; max-width: 560px; margin-bottom: 14px; }
+    .track-accordion { margin: 10px 0 14px; }
+    .track-accordion summary { list-style: none; cursor: pointer; color: var(--muted); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; display: flex; align-items: center; gap: 6px; transition: color .2s; }
+    .track-accordion summary::-webkit-details-marker { display: none; }
+    .track-accordion summary::before { content: '+'; color: var(--accent); font-size: 1rem; line-height: 1; }
+    .track-accordion[open] summary::before { content: '−'; }
+    .track-accordion summary:hover { color: var(--accent); }
+    .track-accordion-body { color: var(--muted); font-size: .95rem; max-width: 700px; line-height: 1.6; padding: 10px 0 2px; }
+    .audio-frame { width: 100%; height: 190px; border: 0; background: var(--panel); margin-top: 12px; box-shadow: none; }
+    .track-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 9px 20px; font-family: 'Space Grotesk', sans-serif; font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); text-decoration: none; transition: background .2s, color .2s; }
+    .track-link:hover { background: var(--accent); color: var(--paper); }
+    .video-grid { width: min(100%, 1040px); margin: 0 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 42px 32px; }
+    .video-card { display: flex; flex-direction: column; gap: 0; }
+    .video-frame-wrap { position: relative; aspect-ratio: 16 / 9; background: var(--panel); overflow: hidden; border: 1px solid rgba(216,121,69,.42); box-shadow: 0 0 0 1px rgba(255,255,255,.025); }
+    .video-frame-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .mobile-video-link { display: none; position: absolute; inset: 0; z-index: 2; align-items: center; justify-content: center; flex-direction: column; gap: 12px; color: var(--ink); background: linear-gradient(135deg, #29231f, #171717); background-size: cover; background-position: center; text-decoration: none; text-align: center; }
+    .mobile-video-link.has-cover::before { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, .28); }
+    .mobile-video-link > span { position: relative; z-index: 1; }
+    .mobile-video-play { width: 64px; height: 64px; display: grid; place-items: center; border: 2px solid var(--accent); border-radius: 50%; color: var(--accent); font-size: 1.45rem; padding-left: 4px; }
+    .mobile-video-label { font-family: 'Space Grotesk', sans-serif; font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--accent-light); }
+    .video-card-meta { padding: 14px 0 0; border-top: 1px solid var(--line); margin-top: 14px; }
+    .video-card-header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+    .video-card-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 600; letter-spacing: -.03em; }
+    .video-card-year { color: var(--accent); font-size: .78rem; letter-spacing: .1em; white-space: nowrap; }
+    .collaborator-link { display: inline-block; margin-top: 12px; color: var(--accent); font-size: .78rem; text-decoration: none; letter-spacing: .04em; }
+    .collaborator-link:hover { text-decoration: underline; }
+    .video-accordion { margin-top: 6px; }
+    .video-accordion summary { list-style: none; cursor: pointer; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); padding: 6px 0; display: flex; align-items: center; gap: 6px; transition: color .2s; }
+    .video-accordion summary::-webkit-details-marker { display: none; }
+    .video-accordion summary::before { content: '+'; font-size: 1rem; color: var(--accent); line-height: 1; }
+    .video-accordion[open] summary::before { content: '−'; }
+    .video-accordion summary:hover { color: var(--accent); }
+    .video-accordion-body { padding: 10px 0 6px; color: var(--muted); font-size: .9rem; line-height: 1.6; }
+    .exp-list { display: flex; flex-direction: column; }
+    .exp-item { display: grid; grid-template-columns: 170px 1fr; gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+    .exp-date { color: var(--accent); font-size: .76rem; letter-spacing: .08em; line-height: 1.4; }
+    .exp-place { color: var(--muted); font-size: .72rem; margin-top: 2px; }
+    .exp-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.08rem; font-weight: 600; letter-spacing: -.025em; margin-bottom: 3px; }
+    .exp-desc { color: var(--muted); font-size: .78rem; line-height: 1.45; }
+    .contacts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px 80px; margin-bottom: 60px; }
+    .contact-block h3 { color: var(--accent); margin-bottom: 10px; text-transform: uppercase; font-size: .72rem; letter-spacing: .18em; font-weight: 600; }
+    .contact-block a { color: var(--ink); text-decoration: none; font-size: 1.15rem; display: block; }
+    .contact-block a:hover { color: var(--accent); }
+    .contact-block span { font-size: 1.15rem; }
+    .contact-divider { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
+    .contact-social { display: flex; gap: 16px; flex-wrap: wrap; }
+    .social-btn { font-family: 'Space Grotesk', sans-serif; font-size: .72rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); padding: 10px 22px; text-decoration: none; transition: border-color .2s, color .2s; }
+    .social-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .page-footer { padding: 28px 48px; text-align: center; font-size: .75rem; color: var(--muted); border-top: 1px solid var(--line); letter-spacing: .1em; }
+    @media (max-width: 700px) {
+      .topbar { padding: 20px 24px; }
+      .home-bottom { padding: 0 20px 40px; }
+      .home-name { width: 100%; padding: 0 4px; font-size: clamp(2rem, 10vw, 3.4rem); letter-spacing: -.08em; white-space: normal; overflow-wrap: anywhere; line-height: .98; text-align: center; }
+      .home-nav { width: min(100%, 360px); display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px 6px; justify-items: center; }
+      .home-nav button { white-space: nowrap; letter-spacing: .12em; }
+      .home-nav button:nth-child(1) { grid-column: 1 / span 2; }
+      .home-nav button:nth-child(2) { grid-column: 3 / span 2; }
+      .home-nav button:nth-child(3) { grid-column: 5 / span 2; }
+      .home-nav button:nth-child(4) { grid-column: 2 / span 2; }
+      .home-nav button:nth-child(5) { grid-column: 4 / span 2; }
+      .inner-page { padding: 90px 24px 60px; }
+      .bio-grid { grid-template-columns: 1fr; gap: 32px; }
+      .exp-item { grid-template-columns: 1fr; gap: 6px; }
+      .contacts-grid { grid-template-columns: 1fr; gap: 32px; }
+      .video-grid { width: 100%; grid-template-columns: 1fr; gap: 32px; }
+      .video-frame-wrap { width: 100%; aspect-ratio: 16 / 9; min-height: 0; }
+      .video-frame-wrap iframe { display: none; }
+      .mobile-video-link { display: flex; }
+      .video-card-meta { margin-top: 10px; padding-top: 12px; }
+      .collaborator-link { font-size: .8rem; }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .page.active .home-name, .page.active .page-title { animation: fadeup .5s ease both; }
+      @keyframes fadeup { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    }
+`;
+
+const SITE_JS = `
+    function goTo(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      document.getElementById('page-' + name).scrollTop = 0;
+    }
+    (function initBioCarousel() {
+      function start() {
+        const carousel = document.querySelector('.bio-carousel');
+        if (!carousel) return;
+        const images = Array.from(carousel.querySelectorAll('img'));
+        const dots = Array.from(carousel.querySelectorAll('.bio-carousel-dot'));
+        if (images.length < 2) return;
+        let current = 0, timer;
+        function showSlide(index) {
+          current = (index + images.length) % images.length;
+          images.forEach((image, i) => image.classList.toggle('active', i === current));
+          dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+        }
+        function scheduleNext() {
+          clearTimeout(timer);
+          timer = setTimeout(() => { showSlide(current + 1); scheduleNext(); }, 15000);
+        }
+        dots.forEach((dot, i) => dot.addEventListener('click', () => { showSlide(i); scheduleNext(); }));
+        showSlide(0);
+        scheduleNext();
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+      else start();
+    })();
+`;
+
+/* ───────────── UTILITÀ ───────────── */
+const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+const rich = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>');
+const has = s => String(s ?? '').trim() !== '';
+
+function media(url) {
+  url = String(url || '').trim();
+  if (!url) return null;
+  let m = url.match(/drive\.google\.com\/.*?\/d\/([\w-]{10,})/) || url.match(/drive\.google\.com\/.*?[?&]id=([\w-]{10,})/);
+  if (m) return { kind: 'Google Drive', embed: `https://drive.google.com/file/d/${m[1]}/preview`, view: `https://drive.google.com/file/d/${m[1]}/view` };
+  m = url.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
+  if (m) return { kind: 'YouTube', embed: `https://www.youtube.com/embed/${m[1]}`, view: `https://www.youtube.com/watch?v=${m[1]}` };
+  m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (m) return { kind: 'Vimeo', embed: `https://player.vimeo.com/video/${m[1]}`, view: `https://vimeo.com/${m[1]}` };
+  return { kind: 'other', embed: url, view: url };
+}
+
+/* ───────────── GENERAZIONE DEL SITO ───────────── */
+function buildSite(d) {
+  const g = d.general, b = d.bio, c = d.contacts;
+  const name = esc(g.name);
+  const footer = `<div class="page-footer">${esc(g.footer)}</div>`;
+  const topbar = `<div class="topbar">
+      <button class="home-btn" onclick="goTo('home')">← Home</button>
+      <span class="topbar-label">${name}</span>
+    </div>`;
+  const tel = 'tel:' + String(c.phone || '').replace(/[^\d+]/g, '');
+  const imgs = b.images.filter(i => has(i.src));
+
+  const bioImgs = imgs.map((im, i) => `          <img${i === 0 ? ' class="active"' : ''} src="${esc(im.src)}" alt="${name}" />`).join('\n');
+  const bioDots = imgs.length > 1 ? `
+          <div class="bio-carousel-dots" aria-label="Choose photo">
+${imgs.map((_, i) => `            <button class="bio-carousel-dot${i === 0 ? ' active' : ''}" type="button" aria-label="Photo ${i + 1}"></button>`).join('\n')}
+          </div>` : '';
+  const paragraphs = b.paragraphs.filter(p => has(p.text)).map(p => `          <p>${rich(p.text)}</p>`).join('\n');
+  const facts = b.facts.filter(f => has(f.label) || has(f.value)).map(f =>
+    `            <div class="fact"><span>${esc(f.label)}</span>${has(f.link)
+      ? `<a href="${esc(f.link)}" target="_blank" rel="noreferrer">${esc(f.value)}</a>`
+      : `<strong>${esc(f.value)}</strong>`}</div>`).join('\n');
+
+  const tracks = d.music.map(t => {
+    const m = media(t.media);
+    return `
+        <div class="track">
+          <div class="track-info">
+            <div class="track-title">${esc(t.title)}</div>
+            ${has(t.year) ? `<div class="track-year">${esc(t.year)}</div>` : ''}
+            ${has(t.synopsis) ? `<details class="track-accordion">
+              <summary>Synopsis</summary>
+              <div class="track-accordion-body">${rich(t.synopsis)}</div>
+            </details>` : ''}
+            ${m ? `<iframe class="audio-frame" src="${esc(m.embed)}" title="${esc(t.title)} audio player" allow="autoplay"></iframe>` : ''}
+          </div>
+        </div>`;
+  }).join('\n');
+
+  const videos = d.videos.map(v => {
+    const m = media(v.media);
+    const cover = has(v.cover);
+    return `
+        <div class="video-card">
+          <div class="video-frame-wrap">
+            ${m ? `<iframe src="${esc(m.embed)}" title="${esc(v.title)}" allowfullscreen></iframe>
+            <a class="mobile-video-link${cover ? ' has-cover' : ''}" href="${esc(m.view)}" target="_blank" rel="noreferrer" aria-label="Apri ${esc(v.title)}"${cover ? ` style="background-image: url('${esc(v.cover)}');"` : ''}>
+              <span class="mobile-video-play" aria-hidden="true">▶</span>
+              <span class="mobile-video-label">Apri video</span>
+            </a>` : ''}
+          </div>
+          <div class="video-card-meta">
+            <div class="video-card-header">
+              <div class="video-card-title">${esc(v.title)}</div>
+              <div class="video-card-year">${esc(v.year)}</div>
+            </div>
+            ${has(v.synopsis) ? `<details class="video-accordion">
+              <summary>Synopsis</summary>
+              <div class="video-accordion-body">${rich(v.synopsis)}</div>
+            </details>` : ''}
+            ${has(v.collabName) ? (has(v.collabUrl)
+              ? `<a class="collaborator-link" href="${esc(v.collabUrl)}" target="_blank" rel="noreferrer">In collaboration with ${esc(v.collabName)} ↗</a>`
+              : `<span class="collaborator-link">In collaboration with ${esc(v.collabName)}</span>`) : ''}
+          </div>
+        </div>`;
+  }).join('\n');
+
+  const exps = d.experiences.map(e => `
+        <div class="exp-item">
+          <div><div class="exp-date">${esc(e.date)}</div><div class="exp-place">${esc(e.place)}</div></div>
+          <div><div class="exp-title">${esc(e.title)}</div>${has(e.desc) ? `<div class="exp-desc">${rich(e.desc)}</div>` : ''}</div>
+        </div>`).join('\n');
+
+  const blocks = [];
+  if (has(c.email)) blocks.push(`<div class="contact-block"><h3>Email</h3><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></div>`);
+  if (has(c.phone)) blocks.push(`<div class="contact-block"><h3>Mobile</h3><a href="${esc(tel)}">${esc(c.phone)}</a></div>`);
+  if (has(c.city)) blocks.push(`<div class="contact-block"><h3>Based in</h3><span>${esc(c.city)}</span></div>`);
+  if (has(c.cv)) blocks.push(`<div class="contact-block"><h3>CV</h3><a href="${esc(c.cv)}" target="_blank" rel="noreferrer">Download CV ↗</a></div>`);
+
+  const socials = [];
+  if (has(c.instagram)) socials.push(`<a class="social-btn" href="${esc(c.instagram)}" target="_blank" rel="noreferrer">Instagram ↗</a>`);
+  (c.extraLinks || []).filter(l => has(l.label) && has(l.url)).forEach(l =>
+    socials.push(`<a class="social-btn" href="${esc(l.url)}" target="_blank" rel="noreferrer">${esc(l.label)} ↗</a>`));
+  if (has(c.email)) socials.push(`<a class="social-btn" href="mailto:${esc(c.email)}">Email ↗</a>`);
+  if (has(c.phone)) socials.push(`<a class="social-btn" href="${esc(tel)}">Mobile ↗</a>`);
+  if (has(c.cv)) socials.push(`<a class="social-btn" href="${esc(c.cv)}" target="_blank" rel="noreferrer">CV ↗</a>`);
+
+  const dataJson = JSON.stringify(d).replace(/</g, '\\u003c');
+
+  return `<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="${esc(g.description)}" />
+  <title>${name}</title>
+  <style>${SITE_CSS}  </style>
+</head>
+<body>
+
+  <!-- ══════════════ HOME ══════════════ -->
+  <div class="page active" id="page-home">
+    <div class="home-bg"></div>
+    ${has(g.homeImage) ? `<div class="home-photo-placeholder">
+      <img src="${esc(g.homeImage)}" alt="${name}" style="width:100%;height:100%;object-fit:cover;opacity:.35;display:block;" />
+    </div>` : ''}
+    <div class="home-bottom">
+      <div class="home-name">${name}</div>
+      <div class="home-sub">${esc(g.subtitle)}</div>
+      <nav class="home-nav" aria-label="Navigazione principale">
+        <button onclick="goTo('bio')">Bio</button>
+        <button onclick="goTo('music')">Music</button>
+        <button onclick="goTo('video')">Video</button>
+        <button onclick="goTo('experiences')">Experiences</button>
+        <button onclick="goTo('contacts')">Contacts</button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ══════════════ BIO ══════════════ -->
+  <div class="page" id="page-bio">
+    ${topbar}
+    <div class="inner-page">
+      <div class="page-eyebrow">About</div>
+      <h1 class="page-title">Bio</h1>
+      <div class="bio-grid">
+        <div class="bio-carousel" aria-label="Photo carousel">
+${bioImgs}${bioDots}
+        </div>
+        <div class="bio-text">
+${paragraphs}
+          <div class="bio-facts">
+${facts}
+          </div>
+        </div>
+      </div>
+    </div>
+    ${footer}
+  </div>
+
+  <!-- ══════════════ MUSIC ══════════════ -->
+  <div class="page" id="page-music">
+    ${topbar}
+    <div class="inner-page">
+      <div class="page-eyebrow">Selected work</div>
+      <h1 class="page-title">Music</h1>
+      <div class="track-list">
+${tracks}
+      </div>
+    </div>
+    ${footer}
+  </div>
+
+  <!-- ══════════════ VIDEO ══════════════ -->
+  <div class="page" id="page-video">
+    ${topbar}
+    <div class="inner-page">
+      <div class="page-eyebrow">Moving image</div>
+      <h1 class="page-title">Video</h1>
+      <div class="video-grid">
+${videos}
+      </div>
+    </div>
+    ${footer}
+  </div>
+
+  <!-- ══════════════ EXPERIENCES ══════════════ -->
+  <div class="page" id="page-experiences">
+    ${topbar}
+    <div class="inner-page">
+      <div class="page-eyebrow">Live · Research</div>
+      <h1 class="page-title">Experiences</h1>
+      <div class="exp-list">
+${exps}
+      </div>
+    </div>
+    ${footer}
+  </div>
+
+  <!-- ══════════════ CONTACTS ══════════════ -->
+  <div class="page" id="page-contacts">
+    ${topbar}
+    <div class="inner-page">
+      <div class="page-eyebrow">Get in touch</div>
+      <h1 class="page-title">Contacts</h1>
+      <div class="contacts-grid">
+        ${blocks.join('\n        ')}
+      </div>
+      <hr class="contact-divider" />
+      <div class="contact-social">
+        ${socials.join('\n        ')}
+      </div>
+    </div>
+    ${footer}
+  </div>
+
+  <!-- Dati per il pannello di gestione (admin.html): non modificare a mano -->
+  <script type="application/json" id="site-data">${dataJson}<\/script>
+  <script>${SITE_JS}  <\/script>
+</body>
+</html>
+`;
+}
+
+/* ───────────── STATO E SALVATAGGIO ───────────── */
+const KEY = 'gdb-site-admin-v1';
+const clone = o => JSON.parse(JSON.stringify(o));
+
+function normalize(d) {
+  const base = clone(DEFAULT_DATA);
+  if (!d || typeof d !== 'object') return base;
+  const out = {
+    general: Object.assign(base.general, d.general || {}),
+    bio: Object.assign(base.bio, d.bio || {}),
+    music: Array.isArray(d.music) ? d.music : base.music,
+    videos: Array.isArray(d.videos) ? d.videos : base.videos,
+    experiences: Array.isArray(d.experiences) ? d.experiences : base.experiences,
+    contacts: Object.assign(base.contacts, d.contacts || {})
+  };
+  if (!Array.isArray(out.contacts.extraLinks)) out.contacts.extraLinks = [];
+  return out;
+}
+
+let state;
+try { state = normalize(JSON.parse(localStorage.getItem(KEY))); } catch (e) { state = clone(DEFAULT_DATA); }
+
+let saveTimer;
+function save() {
+  clearTimeout(saveTimer);
+  document.getElementById('status').textContent = 'Salvataggio…';
+  saveTimer = setTimeout(() => {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); document.getElementById('status').textContent = 'Modifiche salvate in questo browser'; }
+    catch (e) { document.getElementById('status').textContent = 'Salvataggio non riuscito: esporta un backup'; }
+    updateCounts();
+  }, 300);
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ───────────── COMPONENTI UI ───────────── */
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;
+  return e;
+}
+
+function field(f, obj, after) {
+  const w = el('label', 'field' + (f.wide || f.t === 'area' ? ' wide' : ''));
+  w.append(el('span', 'lab', f.l));
+  const inp = document.createElement(f.t === 'area' ? 'textarea' : 'input');
+  if (f.t === 'area') inp.rows = f.rows || 3; else inp.type = 'text';
+  inp.value = obj[f.k] ?? '';
+  if (f.ph) inp.placeholder = f.ph;
+  w.append(inp);
+  const hint = el('span', 'hint', f.hint || '');
+  if (f.hint || f.media) w.append(hint);
+  const check = () => {
+    if (!f.media) return;
+    const m = media(inp.value);
+    if (!m) { hint.textContent = f.hint || ''; hint.className = 'hint'; }
+    else if (m.kind === 'other') { hint.textContent = 'Link non riconosciuto: verrà usato così com’è come player.'; hint.className = 'hint warn'; }
+    else { hint.textContent = `✓ Link ${m.kind} riconosciuto`; hint.className = 'hint ok'; }
+  };
+  inp.addEventListener('input', () => { obj[f.k] = inp.value; save(); check(); after && after(); });
+  check();
+  return w;
+}
+
+function objEditor(obj, fields) {
+  const g = el('div', 'fields');
+  fields.forEach(f => g.append(field(f, obj)));
+  return g;
+}
+
+function iconBtn(sym, label, fn, disabled) {
+  const b = el('button', 'icon', sym);
+  b.type = 'button'; b.title = label; b.setAttribute('aria-label', label);
+  b.disabled = !!disabled; b.onclick = fn;
+  return b;
+}
+
+function listEditor(arr, schema) {
+  const wrap = el('div', 'list');
+  const titleOf = it => (schema.titleKey && has(it[schema.titleKey])) ? it[schema.titleKey] : schema.untitled || 'Senza titolo';
+
+  const draw = focusIndex => {
+    wrap.innerHTML = '';
+    const addBtn = el('button', 'add', '+ ' + schema.addLabel);
+    addBtn.type = 'button';
+    addBtn.onclick = () => {
+      const blank = {}; schema.fields.forEach(f => blank[f.k] = '');
+      if (schema.addTop) { arr.unshift(blank); draw(0); } else { arr.push(blank); draw(arr.length - 1); }
+      save();
+    };
+    if (schema.addTop) wrap.append(addBtn);
+    if (!arr.length) wrap.append(el('p', 'hint', schema.empty || 'Nessun elemento. Aggiungine uno.'));
+
+    arr.forEach((item, i) => {
+      const card = el('div', 'item');
+      const head = el('div', 'item-head');
+      const t = el('span', 'item-title', titleOf(item));
+      const acts = el('div', 'item-actions');
+      acts.append(
+        iconBtn('↑', 'Sposta su', () => { [arr[i - 1], arr[i]] = [arr[i], arr[i - 1]]; save(); draw(); }, i === 0),
+        iconBtn('↓', 'Sposta giù', () => { [arr[i + 1], arr[i]] = [arr[i], arr[i + 1]]; save(); draw(); }, i === arr.length - 1),
+        iconBtn('✕', 'Elimina', () => { if (confirm(`Eliminare “${titleOf(item)}”?`)) { arr.splice(i, 1); save(); draw(); } })
+      );
+      head.append(el('span', 'item-n', String(i + 1)), t, acts);
+      card.append(head);
+      const g = el('div', 'fields');
+      schema.fields.forEach(f => g.append(field(f, item, () => t.textContent = titleOf(item))));
+      card.append(g);
+      wrap.append(card);
+      if (i === focusIndex) setTimeout(() => { card.scrollIntoView({ block: 'center' }); card.querySelector('input,textarea').focus(); }, 0);
+    });
+    if (!schema.addTop) wrap.append(addBtn);
+  };
+  draw();
+  return wrap;
+}
+
+/* ───────────── SEZIONI ───────────── */
+const RICH_HINT = 'Usa *testo* per evidenziarlo in arancione e **testo** per il grassetto.';
+const MEDIA_HINT = 'Incolla il link di condivisione di Google Drive, YouTube o Vimeo.';
+
+const TABS = [
+  { id: 'general', label: 'Generale', render: p => {
+    p.append(el('h2', null, 'Generale'), el('p', 'lead', 'Nome, sottotitolo e immagine della home.'));
+    p.append(objEditor(state.general, [
+      { k: 'name', l: 'Nome' },
+      { k: 'subtitle', l: 'Sottotitolo' },
+      { k: 'homeImage', l: 'Immagine di sfondo della home', hint: 'Percorso del file, ad esempio images/2.jpg', wide: true },
+      { k: 'description', l: 'Descrizione per Google', hint: 'Il testo che appare sotto il titolo nei risultati di ricerca.', wide: true },
+      { k: 'footer', l: 'Testo a piè di pagina', wide: true }
+    ]));
+  }},
+  { id: 'bio', label: 'Bio', render: p => {
+    p.append(el('h2', null, 'Bio'), el('p', 'lead', 'Testo, foto del carosello e scheda informativa.'));
+    p.append(el('h3', null, 'Paragrafi'));
+    p.append(listEditor(state.bio.paragraphs, { addLabel: 'Aggiungi paragrafo', untitled: 'Paragrafo',
+      fields: [{ k: 'text', l: 'Testo', t: 'area', rows: 3, hint: RICH_HINT }] }));
+    p.append(el('h3', null, 'Foto del carosello'));
+    p.append(listEditor(state.bio.images, { addLabel: 'Aggiungi foto', titleKey: 'src', untitled: 'Nuova foto',
+      fields: [{ k: 'src', l: 'Percorso immagine', ph: 'images/nome-file.jpg', hint: 'Carica il file nella cartella images del sito e scrivi qui il percorso.', wide: true }] }));
+    p.append(el('h3', null, 'Scheda informativa'));
+    p.append(listEditor(state.bio.facts, { addLabel: 'Aggiungi riga', titleKey: 'label', untitled: 'Nuova riga',
+      fields: [{ k: 'label', l: 'Etichetta', ph: 'Base' }, { k: 'value', l: 'Valore', ph: 'Bologna, Italia' },
+               { k: 'link', l: 'Link (facoltativo)', hint: 'Se lo compili, il valore diventa cliccabile.', wide: true }] }));
+  }},
+  { id: 'music', label: 'Musica', count: () => state.music.length, render: p => {
+    p.append(el('h2', null, 'Musica'), el('p', 'lead', 'I brani appaiono nell’ordine di questa lista. I nuovi vengono aggiunti in cima.'));
+    p.append(listEditor(state.music, { addLabel: 'Aggiungi brano', titleKey: 'title', addTop: true,
+      fields: [{ k: 'title', l: 'Titolo' }, { k: 'year', l: 'Anno' },
+               { k: 'media', l: 'Link audio', media: true, hint: MEDIA_HINT, wide: true },
+               { k: 'synopsis', l: 'Sinossi', t: 'area', hint: RICH_HINT }] }));
+  }},
+  { id: 'videos', label: 'Video', count: () => state.videos.length, render: p => {
+    p.append(el('h2', null, 'Video'), el('p', 'lead', 'I video appaiono nell’ordine di questa lista. I nuovi vengono aggiunti in cima.'));
+    p.append(listEditor(state.videos, { addLabel: 'Aggiungi video', titleKey: 'title', addTop: true,
+      fields: [{ k: 'title', l: 'Titolo' }, { k: 'year', l: 'Anno' },
+               { k: 'media', l: 'Link video', media: true, hint: MEDIA_HINT, wide: true },
+               { k: 'cover', l: 'Copertina per smartphone', ph: 'images/nome-video.jpg', hint: 'Immagine mostrata su mobile al posto del player. Facoltativa.', wide: true },
+               { k: 'synopsis', l: 'Sinossi', t: 'area', hint: RICH_HINT },
+               { k: 'collabName', l: 'Collaborazione con (facoltativo)', ph: 'Nome e cognome' },
+               { k: 'collabUrl', l: 'Link del collaboratore', ph: 'https://…' }] }));
+  }},
+  { id: 'experiences', label: 'Esperienze', count: () => state.experiences.length, render: p => {
+    p.append(el('h2', null, 'Esperienze'), el('p', 'lead', 'Concerti, festival, workshop. I nuovi vengono aggiunti in cima.'));
+    p.append(listEditor(state.experiences, { addLabel: 'Aggiungi esperienza', titleKey: 'title', addTop: true,
+      fields: [{ k: 'date', l: 'Data', ph: '22 / 03 / 2026' }, { k: 'place', l: 'Luogo', ph: 'Bologna, Italy' },
+               { k: 'title', l: 'Titolo', wide: true },
+               { k: 'desc', l: 'Descrizione', t: 'area', rows: 2, hint: RICH_HINT }] }));
+  }},
+  { id: 'contacts', label: 'Contatti', render: p => {
+    p.append(el('h2', null, 'Contatti'), el('p', 'lead', 'I campi lasciati vuoti non vengono mostrati sul sito.'));
+    p.append(objEditor(state.contacts, [
+      { k: 'email', l: 'Email' }, { k: 'phone', l: 'Telefono' },
+      { k: 'city', l: 'Città' }, { k: 'instagram', l: 'Profilo Instagram' },
+      { k: 'cv', l: 'Link al CV', wide: true }
+    ]));
+    p.append(el('h3', null, 'Altri link'));
+    p.append(listEditor(state.contacts.extraLinks, { addLabel: 'Aggiungi link', titleKey: 'label', untitled: 'Nuovo link',
+      empty: 'Nessun link aggiuntivo. Puoi aggiungere SoundCloud, Bandcamp, YouTube…',
+      fields: [{ k: 'label', l: 'Nome', ph: 'SoundCloud' }, { k: 'url', l: 'Indirizzo', ph: 'https://…' }] }));
+  }},
+  { id: 'export', label: 'Pubblica', render: p => {
+    p.append(el('h2', null, 'Pubblica'), el('p', 'lead', 'Controlla l’anteprima, poi scarica il nuovo index.html e sostituiscilo a quello online.'));
+    const note = el('div', 'note');
+    note.innerHTML = '<b>Come aggiornare il sito:</b> scarica <code>index.html</code>, caricalo sul tuo hosting al posto di quello vecchio, insieme a eventuali nuove immagini nella cartella <code>images</code>. Le modifiche restano salvate in questo browser; esporta un backup se cambi computer.';
+    p.append(note);
+
+    const a1 = el('div', 'actions');
+    const dl = el('button', 'btn primary', 'Scarica index.html'); dl.onclick = () => download('index.html', buildSite(state), 'text/html');
+    const pv = el('button', 'btn', 'Aggiorna anteprima'); pv.onclick = () => { frame.srcdoc = buildSite(state); toast('Anteprima aggiornata'); };
+    const cp = el('button', 'btn', 'Copia codice HTML'); cp.onclick = async () => {
+      try { await navigator.clipboard.writeText(buildSite(state)); toast('Codice copiato'); } catch (e) { toast('Copia non riuscita: usa Scarica index.html'); }
+    };
+    a1.append(dl, pv, cp);
+    p.append(a1);
+
+    const frame = el('iframe', 'preview');
+    frame.title = 'Anteprima del sito';
+    frame.srcdoc = buildSite(state);
+    p.append(frame);
+    p.append(el('p', 'hint', 'Le foto si vedono nell’anteprima solo se admin.html si trova nella stessa cartella del sito.'));
+
+    p.append(el('h3', null, 'Backup e ripristino'));
+    const a2 = el('div', 'actions');
+    const ex = el('button', 'btn', 'Esporta backup'); ex.onclick = () => download('sito-backup.json', JSON.stringify(state, null, 2), 'application/json');
+    const im = el('button', 'btn', 'Importa backup o index.html'); im.onclick = () => document.getElementById('importFile').click();
+    const rs = el('button', 'btn danger', 'Ripristina contenuti originali'); rs.onclick = () => {
+      if (confirm('Tutte le modifiche fatte qui verranno perse. Continuare?')) { state = clone(DEFAULT_DATA); save(); renderAll('export'); toast('Contenuti originali ripristinati'); }
+    };
+    a2.append(ex, im, rs);
+    p.append(a2);
+    p.append(el('p', 'hint', 'Puoi importare anche un index.html generato da questa pagina: i contenuti vengono letti direttamente dal file.'));
+  }}
+];
+
+function download(name, text, type) {
+  const url = URL.createObjectURL(new Blob([text], { type: type + ';charset=utf-8' }));
+  const a = document.createElement('a');
+  a.href = url; a.download = name; document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  toast(name + ' scaricato');
+}
+
+document.getElementById('importFile').addEventListener('change', e => {
+  const file = e.target.files[0]; if (!file) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      let data;
+      if (/\.html?$/i.test(file.name)) {
+        const doc = new DOMParser().parseFromString(r.result, 'text/html');
+        const s = doc.getElementById('site-data');
+        if (!s) throw new Error('Questo index.html non è stato creato con il pannello: importa un backup .json.');
+        data = JSON.parse(s.textContent);
+      } else data = JSON.parse(r.result);
+      state = normalize(data); save(); renderAll('export'); toast('Contenuti importati');
+    } catch (err) { alert(err.message || 'File non valido.'); }
+    e.target.value = '';
+  };
+  r.readAsText(file);
+});
+
+/* ───────────── NAVIGAZIONE ───────────── */
+const tabsEl = document.getElementById('tabs'), mainEl = document.getElementById('main');
+let current = 'general';
+
+function updateCounts() {
+  TABS.forEach(t => { if (t.count) { const c = tabsEl.querySelector(`[data-tab="${t.id}"] .count`); if (c) c.textContent = t.count(); } });
+}
+
+function renderAll(show) {
+  current = show || current;
+  tabsEl.querySelectorAll('.tab').forEach(b => b.remove());
+  mainEl.innerHTML = '';
+  const status = document.getElementById('status');
+  TABS.forEach(t => {
+    const b = el('button', 'tab' + (t.id === current ? ' on' : ''));
+    b.type = 'button'; b.dataset.tab = t.id;
+    b.append(el('span', null, t.label));
+    if (t.count) b.append(el('span', 'count', t.count()));
+    b.onclick = () => select(t.id);
+    tabsEl.insertBefore(b, status);
+    const p = el('section', 'panel' + (t.id === current ? ' on' : ''));
+    p.id = 'panel-' + t.id;
+    t.render(p);
+    mainEl.append(p);
+  });
+}
+
+function select(id) {
+  current = id;
+  tabsEl.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.tab === id));
+  mainEl.querySelectorAll('.panel').forEach(p => p.classList.toggle('on', p.id === 'panel-' + id));
+  if (id === 'export') { const f = mainEl.querySelector('.preview'); if (f) f.srcdoc = buildSite(state); }
+  window.scrollTo(0, 0);
+}
+
+renderAll();
+</script>
+</body>
+</html>
