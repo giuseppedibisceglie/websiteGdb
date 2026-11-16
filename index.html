@@ -89,6 +89,17 @@
     .exp-place { color: var(--muted); font-size: .72rem; margin-top: 2px; }
     .exp-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.08rem; font-weight: 600; letter-spacing: -.025em; margin-bottom: 3px; }
     .exp-desc { color: var(--muted); font-size: .78rem; line-height: 1.45; }
+    .presented { margin: 12px 0 14px; }
+    .presented-label { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .presented-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .presented-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; padding-left: 14px; position: relative; font-size: .9rem; line-height: 1.4; }
+    .presented-list li::before { content: ''; position: absolute; left: 0; top: .55em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+    .presented-event { color: var(--ink); }
+    a.presented-event { text-decoration: none; border-bottom: 1px solid rgba(216,121,69,.5); }
+    a.presented-event:hover { color: var(--accent); }
+    .presented-meta { color: var(--muted); font-size: .8rem; }
+    .exp-section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; letter-spacing: -.05em; line-height: 1; margin: 80px 0 8px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+    .pw-item .presented-list { margin-top: 8px; }
     .contacts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px 80px; margin-bottom: 60px; }
     .contact-block h3 { color: var(--accent); margin-bottom: 10px; text-transform: uppercase; font-size: .72rem; letter-spacing: .18em; font-weight: 600; }
     .contact-block a { color: var(--ink); text-decoration: none; font-size: 1.15rem; display: block; }
@@ -204,6 +215,12 @@
               <summary>Synopsis</summary>
               <div class="track-accordion-body">Wingbeats at 240 Hz and other annoyinssssssssssssssssssg buzzes.</div>
             </details>
+            <div class="presented">
+              <div class="presented-label">Presented</div>
+              <ul class="presented-list">
+                <li><span class="presented-event">SuonoForma — Conservatory of Bologna</span><span class="presented-meta">Bologna, Italy · 17 / 01 / 2026</span></li>
+              </ul>
+            </div>
             <iframe class="audio-frame" src="https://drive.google.com/file/d/1VCbeDUuptTay6QUQzoZCt0JF-uviyv0R/preview" title="Drosophila audio player" allow="autoplay"></iframe>
           </div>
         </div>
@@ -216,6 +233,12 @@
               <summary>Synopsis</summary>
               <div class="track-accordion-body">Madeleine intertwines heterogeneous acoustic materials, such as balloons, glockenspiel, and various toys, with evocative fragments of pop-rock tracks. The moments of clear recognizability of the sources, contrasted with electroacoustic reworkings of various kinds, aim to activate memory processes, allowing imagination to assemble a frosted mosaic of memories.</div>
             </details>
+            <div class="presented">
+              <div class="presented-label">Presented</div>
+              <ul class="presented-list">
+                <li><span class="presented-event">Electroacoustic Music Days 2025 — HELMCA</span><span class="presented-meta">Ioannina, Greece · 10 / 2025</span></li>
+              </ul>
+            </div>
             <iframe class="audio-frame" src="https://drive.google.com/file/d/1XQcJ_wLapBJNywTtIxmLxweioG-P7e7a/preview" title="Madeleine audio player" allow="autoplay"></iframe>
           </div>
         </div>
@@ -228,6 +251,7 @@
               <summary>Synopsis</summary>
               <div class="track-accordion-body">Debris, waste, and other bulky consumed materials.</div>
             </details>
+            
             <iframe class="audio-frame" src="https://drive.google.com/file/d/1q91J0NyhFbRrD4DMg2zGq1Bk-6CwFhgi/preview" title="ImLovingIT audio player" allow="autoplay"></iframe>
           </div>
         </div>
@@ -264,6 +288,7 @@
               <summary>Synopsis</summary>
               <div class="video-accordion-body">Synopsis coming soon.</div>
             </details>
+            
             <a class="collaborator-link" href="https://khlabov.site/?i=1" target="_blank" rel="noreferrer">In collaboration with Anton Khlabov ↗</a>
           </div>
         </div>
@@ -286,6 +311,7 @@
               <div class="video-accordion-body">Synopsis coming soon.</div>
             </details>
             
+            
           </div>
         </div>
 
@@ -306,6 +332,7 @@
               <summary>Synopsis</summary>
               <div class="video-accordion-body">An audiovisual collage born from amateur recordings made during a journey through China: food, everyday rituals and urban speed meet in a landscape of memory.</div>
             </details>
+            
             
           </div>
         </div>
@@ -355,6 +382,25 @@
           <div><div class="exp-title">Motus — Acusmonium Workshop</div><div class="exp-desc">Three-day workshop on performing with an acusmonium and more than 30 loudspeakers, culminating in a final concert.</div></div>
         </div>
       </div>
+      <h2 class="exp-section-title">Presented works</h2>
+      <div class="exp-list">
+        <div class="exp-item pw-item">
+          <div><div class="exp-date">Music · 2025</div></div>
+          <div><div class="exp-title">Drosophila</div>
+              <ul class="presented-list">
+                <li><span class="presented-event">SuonoForma — Conservatory of Bologna</span><span class="presented-meta">Bologna, Italy · 17 / 01 / 2026</span></li>
+              </ul>
+          </div>
+        </div>
+        <div class="exp-item pw-item">
+          <div><div class="exp-date">Music · 2024</div></div>
+          <div><div class="exp-title">Madeleine</div>
+              <ul class="presented-list">
+                <li><span class="presented-event">Electroacoustic Music Days 2025 — HELMCA</span><span class="presented-meta">Ioannina, Greece · 10 / 2025</span></li>
+              </ul>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="page-footer">© 2025 Giuseppe Di Bisceglie</div>
   </div>
@@ -386,7 +432,7 @@
   </div>
 
   <!-- Dati per il pannello di gestione (admin.html): non modificare a mano -->
-  <script type="application/json" id="site-data">{"general":{"name":"Giuseppe Di Bisceglie","subtitle":"Electroacoustic Composer · Musician","description":"Giuseppe Di Bisceglie — Electroacoustic Composer & Musician","homeImage":"images/2.jpg","footer":"© 2025 Giuseppe Di Bisceglie"},"bio":{"paragraphs":[{"text":"**Giuseppe Di Bisceglie** is an Electronic Music student at the *Conservatory Martini of Bologna*."},{"text":"Originally trained as a guitarist, exploring fingerstyle, fingerpicking, and harmony, he later expanded his musical language into electronic and electroacoustic composition."},{"text":"Active both in the studio and live, he blends digital and analog instruments in live electronics performances and electroacoustic improvisation, both solo and in collaboration with other musicians."},{"text":"He works daily with *Ableton Live*, *Max/MSP*, and *Reaper* for sound design and music production, with expertise in *Ambisonics* and multichannel composition."}],"images":[{"src":"images/1.jpg"},{"src":"images/13.jpg"},{"src":"images/15.png"}],"facts":[{"label":"Base","value":"Bologna, Italia","link":""},{"label":"Practice","value":"Sound art · Live electronics","link":""},{"label":"Tools","value":"Ableton Live · Max/MSP · Reaper","link":""},{"label":"CV","value":"Download CV ↗","link":"https://drive.google.com/file/d/1SyBPkz8ruXEt66gW55QVbeDiR-jndObN/view"}]},"music":[{"title":"Drosophila","year":"2025","synopsis":"Wingbeats at 240 Hz and other annoyinssssssssssssssssssg buzzes.","media":"https://drive.google.com/file/d/1VCbeDUuptTay6QUQzoZCt0JF-uviyv0R/view"},{"title":"Madeleine","year":"2024","synopsis":"Madeleine intertwines heterogeneous acoustic materials, such as balloons, glockenspiel, and various toys, with evocative fragments of pop-rock tracks. The moments of clear recognizability of the sources, contrasted with electroacoustic reworkings of various kinds, aim to activate memory processes, allowing imagination to assemble a frosted mosaic of memories.","media":"https://drive.google.com/file/d/1XQcJ_wLapBJNywTtIxmLxweioG-P7e7a/view"},{"title":"ImLovingIT","year":"2023","synopsis":"Debris, waste, and other bulky consumed materials.","media":"https://drive.google.com/file/d/1q91J0NyhFbRrD4DMg2zGq1Bk-6CwFhgi/view"}],"videos":[{"title":"Distortion of Lights","year":"2026","synopsis":"Synopsis coming soon.","media":"https://drive.google.com/file/d/1QIY469YPEwH4uGxxQ_RxQbBldEOEh2Ki/view","cover":"images/distortion-of-lights.jpg","collabName":"Anton Khlabov","collabUrl":"https://khlabov.site/?i=1"},{"title":"Untitled","year":"2026","synopsis":"Synopsis coming soon.","media":"https://drive.google.com/file/d/1uoeTd0MLQ37Z6vo-nbLgd2vheeK9sYVB/view","cover":"images/untitled.jpg","collabName":"","collabUrl":""},{"title":"BiangBiang24","year":"2024","synopsis":"An audiovisual collage born from amateur recordings made during a journey through China: food, everyday rituals and urban speed meet in a landscape of memory.","media":"https://drive.google.com/file/d/1c5LFqkvMYqndsO3ZE5oXPNXzt0d8zXMK/view","cover":"images/biangbiang24.jpg","collabName":"","collabUrl":""}],"experiences":[{"date":"22 / 03 / 2026","place":"Bologna, Italy","title":"Collective Electroacoustic Improvisation — AtelierSi","desc":"Collective electroacoustic improvisation session at AtelierSi, Bologna."},{"date":"17 / 01 / 2026","place":"Bologna, Italy","title":"SuonoForma — Conservatory of Bologna","desc":"Presentation of *Drosophila* at SuonoForma."},{"date":"10 / 2025","place":"Ioannina, Greece","title":"Electroacoustic Music Days 2025 — HELMCA","desc":"Presentation of *Madeleine* at the festival organized by the Hellenic Electroacoustic Music Composers Association."},{"date":"10 / 2025","place":"Yerevan, Armenia","title":"Antanèlee — HIGH FEST International","desc":"Sound artist and live music performer in the performance curated by Tsolak Mlke-Galstyan and MIHR Theatre."},{"date":"2025","place":"Yerevan, Armenia","title":"Études Lab #1 — Hosq","desc":"Collaboration on the creation of a theatrical performance, including composition and sound design for installations and live electronics."},{"date":"04 / 2025","place":"Bologna, Italy","title":"Motus — Acusmonium Workshop","desc":"Three-day workshop on performing with an acusmonium and more than 30 loudspeakers, culminating in a final concert."}],"contacts":{"email":"giuseppe.dibisceglie@hotmail.com","phone":"+39 391 736 8844","city":"Bologna, Italia","cv":"https://drive.google.com/file/d/1SyBPkz8ruXEt66gW55QVbeDiR-jndObN/view","instagram":"https://www.instagram.com/josef.lynn/","extraLinks":[]}}</script>
+  <script type="application/json" id="site-data">{"general":{"name":"Giuseppe Di Bisceglie","subtitle":"Electroacoustic Composer · Musician","description":"Giuseppe Di Bisceglie — Electroacoustic Composer & Musician","homeImage":"images/2.jpg","footer":"© 2025 Giuseppe Di Bisceglie"},"bio":{"paragraphs":[{"text":"**Giuseppe Di Bisceglie** is an Electronic Music student at the *Conservatory Martini of Bologna*."},{"text":"Originally trained as a guitarist, exploring fingerstyle, fingerpicking, and harmony, he later expanded his musical language into electronic and electroacoustic composition."},{"text":"Active both in the studio and live, he blends digital and analog instruments in live electronics performances and electroacoustic improvisation, both solo and in collaboration with other musicians."},{"text":"He works daily with *Ableton Live*, *Max/MSP*, and *Reaper* for sound design and music production, with expertise in *Ambisonics* and multichannel composition."}],"images":[{"src":"images/1.jpg"},{"src":"images/13.jpg"},{"src":"images/15.png"}],"facts":[{"label":"Base","value":"Bologna, Italia","link":""},{"label":"Practice","value":"Sound art · Live electronics","link":""},{"label":"Tools","value":"Ableton Live · Max/MSP · Reaper","link":""},{"label":"CV","value":"Download CV ↗","link":"https://drive.google.com/file/d/1SyBPkz8ruXEt66gW55QVbeDiR-jndObN/view"}]},"music":[{"title":"Drosophila","year":"2025","synopsis":"Wingbeats at 240 Hz and other annoyinssssssssssssssssssg buzzes.","media":"https://drive.google.com/file/d/1VCbeDUuptTay6QUQzoZCt0JF-uviyv0R/view","presented":[{"event":"SuonoForma — Conservatory of Bologna","place":"Bologna, Italy","date":"17 / 01 / 2026","link":""}],"showPresented":true},{"title":"Madeleine","year":"2024","synopsis":"Madeleine intertwines heterogeneous acoustic materials, such as balloons, glockenspiel, and various toys, with evocative fragments of pop-rock tracks. The moments of clear recognizability of the sources, contrasted with electroacoustic reworkings of various kinds, aim to activate memory processes, allowing imagination to assemble a frosted mosaic of memories.","media":"https://drive.google.com/file/d/1XQcJ_wLapBJNywTtIxmLxweioG-P7e7a/view","presented":[{"event":"Electroacoustic Music Days 2025 — HELMCA","place":"Ioannina, Greece","date":"10 / 2025","link":""}],"showPresented":true},{"title":"ImLovingIT","year":"2023","synopsis":"Debris, waste, and other bulky consumed materials.","media":"https://drive.google.com/file/d/1q91J0NyhFbRrD4DMg2zGq1Bk-6CwFhgi/view","presented":[],"showPresented":true}],"videos":[{"title":"Distortion of Lights","year":"2026","synopsis":"Synopsis coming soon.","media":"https://drive.google.com/file/d/1QIY469YPEwH4uGxxQ_RxQbBldEOEh2Ki/view","cover":"images/distortion-of-lights.jpg","collabName":"Anton Khlabov","collabUrl":"https://khlabov.site/?i=1","presented":[],"showPresented":true},{"title":"Untitled","year":"2026","synopsis":"Synopsis coming soon.","media":"https://drive.google.com/file/d/1uoeTd0MLQ37Z6vo-nbLgd2vheeK9sYVB/view","cover":"images/untitled.jpg","collabName":"","collabUrl":"","presented":[],"showPresented":true},{"title":"BiangBiang24","year":"2024","synopsis":"An audiovisual collage born from amateur recordings made during a journey through China: food, everyday rituals and urban speed meet in a landscape of memory.","media":"https://drive.google.com/file/d/1c5LFqkvMYqndsO3ZE5oXPNXzt0d8zXMK/view","cover":"images/biangbiang24.jpg","collabName":"","collabUrl":"","presented":[],"showPresented":true}],"experiences":[{"date":"22 / 03 / 2026","place":"Bologna, Italy","title":"Collective Electroacoustic Improvisation — AtelierSi","desc":"Collective electroacoustic improvisation session at AtelierSi, Bologna."},{"date":"17 / 01 / 2026","place":"Bologna, Italy","title":"SuonoForma — Conservatory of Bologna","desc":"Presentation of *Drosophila* at SuonoForma."},{"date":"10 / 2025","place":"Ioannina, Greece","title":"Electroacoustic Music Days 2025 — HELMCA","desc":"Presentation of *Madeleine* at the festival organized by the Hellenic Electroacoustic Music Composers Association."},{"date":"10 / 2025","place":"Yerevan, Armenia","title":"Antanèlee — HIGH FEST International","desc":"Sound artist and live music performer in the performance curated by Tsolak Mlke-Galstyan and MIHR Theatre."},{"date":"2025","place":"Yerevan, Armenia","title":"Études Lab #1 — Hosq","desc":"Collaboration on the creation of a theatrical performance, including composition and sound design for installations and live electronics."},{"date":"04 / 2025","place":"Bologna, Italy","title":"Motus — Acusmonium Workshop","desc":"Three-day workshop on performing with an acusmonium and more than 30 loudspeakers, culminating in a final concert."}],"contacts":{"email":"giuseppe.dibisceglie@hotmail.com","phone":"+39 391 736 8844","city":"Bologna, Italia","cv":"https://drive.google.com/file/d/1SyBPkz8ruXEt66gW55QVbeDiR-jndObN/view","instagram":"https://www.instagram.com/josef.lynn/","extraLinks":[]},"presentedWorks":{"show":true,"title":"Presented works"}}</script>
   <script>
     function goTo(name) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
