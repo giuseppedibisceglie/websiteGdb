@@ -524,9 +524,9 @@ function media(url) {
   url = String(url || '').trim();
   if (!url) return null;
   let m = url.match(/drive\.google\.com\/.*?\/d\/([\w-]{10,})/) || url.match(/drive\.google\.com\/.*?[?&]id=([\w-]{10,})/);
-  if (m) return { kind: 'Google Drive', embed: `https://drive.google.com/file/d/${m[1]}/preview`, view: `https://drive.google.com/file/d/${m[1]}/view` };
+  if (m) return { kind: 'Google Drive', embed: `https://drive.google.com/file/d/${m[1]}/preview`, view: `https://drive.google.com/file/d/${m[1]}/view`, thumb: `https://drive.google.com/thumbnail?id=${m[1]}&sz=w640` };
   m = url.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
-  if (m) return { kind: 'YouTube', embed: `https://www.youtube.com/embed/${m[1]}`, view: `https://www.youtube.com/watch?v=${m[1]}` };
+  if (m) return { kind: 'YouTube', embed: `https://www.youtube.com/embed/${m[1]}`, view: `https://www.youtube.com/watch?v=${m[1]}`, thumb: `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg` };
   m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
   if (m) return { kind: 'Vimeo', embed: `https://player.vimeo.com/video/${m[1]}`, view: `https://vimeo.com/${m[1]}` };
   return { kind: 'other', embed: url, view: url };
@@ -563,6 +563,15 @@ function synopsisBlock(item, prefix) {
                 ${pres}
               </div>
             </details>`;
+}
+
+function thumbImg(v) {
+  const m = media(v.media);
+  const auto = m && m.thumb ? m.thumb : '';
+  const src = has(v.cover) ? v.cover : auto;
+  if (!src) return '';
+  const fb = has(v.cover) && auto ? ` data-fallback="${esc(auto)}"` : '';
+  return `<img src="${esc(src)}"${fb} alt="" loading="lazy" referrerpolicy="no-referrer" onerror="if(this.dataset.fallback&&this.src!==this.dataset.fallback){this.src=this.dataset.fallback}else{this.remove()}" />`;
 }
 
 function buildSite(d) {
@@ -619,12 +628,14 @@ ${imgs.map((_, i) => `            <button class="bio-carousel-dot${i === 0 ? ' a
   const startVideo = Math.max(0, d.videos.findIndex(v => v.featured === true));
   const videoItems = d.videos.map((v, i) => {
     const m = media(v.media);
-    const cover = has(v.cover);
+    const layers = [has(v.cover) ? v.cover : '', m && m.thumb ? m.thumb : ''].filter(Boolean);
+    const cover = layers.length > 0;
+    const coverStyle = layers.map(u => `url('${esc(u)}')`).join(', ');
     return `
           <div class="vt-item"${i !== startVideo ? ' hidden' : ''}>
             <div class="video-frame-wrap">
               ${m ? `<iframe data-src="${esc(m.embed)}" title="${esc(v.title)}" allowfullscreen></iframe>
-              <a class="mobile-video-link${cover ? ' has-cover' : ''}" href="${esc(m.view)}" target="_blank" rel="noreferrer" aria-label="Apri ${esc(v.title)}"${cover ? ` style="background-image: url('${esc(v.cover)}');"` : ''}>
+              <a class="mobile-video-link${cover ? ' has-cover' : ''}" href="${esc(m.view)}" target="_blank" rel="noreferrer" aria-label="Apri ${esc(v.title)}"${cover ? ` style="background-image: ${coverStyle};"` : ''}>
                 <span class="mobile-video-play" aria-hidden="true">▶</span>
                 <span class="mobile-video-label">Apri video</span>
               </a>` : ''}
@@ -644,7 +655,7 @@ ${imgs.map((_, i) => `            <button class="bio-carousel-dot${i === 0 ? ' a
   const videoPicks = d.videos.length > 1 ? `
         <div class="vt-list" aria-label="Choose a video">
 ${d.videos.map((v, i) => `          <button class="vt-pick" type="button" aria-pressed="${i === startVideo ? 'true' : 'false'}">
-            <span class="vt-thumb">${has(v.cover) ? `<img src="${esc(v.cover)}" alt="" loading="lazy" />` : ''}</span>
+            <span class="vt-thumb">${thumbImg(v)}</span>
             <span class="vt-info"><span class="vt-title">${esc(v.title)}</span><span class="vt-year">${esc(v.year)}</span><span class="vt-now">Now playing</span></span>
           </button>`).join('\n')}
         </div>` : '';
@@ -1010,7 +1021,7 @@ const TABS = [
       fields: [{ k: 'title', l: 'Titolo' }, { k: 'year', l: 'Anno' },
                { k: 'featured', l: 'Video principale: si vede per primo sullo schermo grande', t: 'check', def: false, exclusive: true },
                { k: 'media', l: 'Link video', media: true, hint: MEDIA_HINT, wide: true },
-               { k: 'cover', l: 'Copertina per smartphone', ph: 'images/nome-video.jpg', hint: 'Immagine mostrata su mobile al posto del player. Facoltativa.', wide: true },
+               { k: 'cover', l: 'Copertina', ph: 'images/nome-video.jpg', hint: 'Usata nell’elenco dei video e su smartphone. Se manca o il file non c’è, uso in automatico l’anteprima di Google Drive o YouTube.', wide: true },
                { k: 'synopsis', l: 'Sinossi', t: 'area', hint: RICH_HINT },
                { k: 'collabName', l: 'Collaborazione con (facoltativo)', ph: 'Nome e cognome' },
                { k: 'collabUrl', l: 'Link del collaboratore', ph: 'https://…' },
